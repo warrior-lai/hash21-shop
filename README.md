@@ -1,6 +1,6 @@
 # Hash21 Shop ⚡
 
-Tienda de joyería artesanal Bitcoin con pagos nativos Lightning Network.
+Tienda de objetos de diseño inspirados en Bitcoin creados por artistas latinoamericanos y con pagos nativos Lightning Network.
 
 ## ¿Qué es?
 
