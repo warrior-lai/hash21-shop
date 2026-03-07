@@ -597,15 +597,21 @@
   <!-- Nav -->
   <nav>
     <a class="nav-logo" href="https://hash21.studio">Hash<span>21</span></a>
-    <a class="nav-back" href="https://hash21.studio">← Galería</a>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <a class="nav-back" href="https://hash21.studio" data-i18n="nav_back">← Galería</a>
+      <div style="display:flex;gap:4px;">
+        <button class="lang-btn" onclick="setLang('es')" style="background:none;border:1px solid var(--border-md);color:var(--text-mid);padding:4px 8px;border-radius:2px;cursor:pointer;font-size:0.75rem;">ES</button>
+        <button class="lang-btn" onclick="setLang('en')" style="background:none;border:1px solid var(--border-md);color:var(--text-mid);padding:4px 8px;border-radius:2px;cursor:pointer;font-size:0.75rem;">EN</button>
+      </div>
+    </div>
   </nav>
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-label">⚡ Pagá con Lightning Network</div>
-    <h1>Objetos de<br>diseño</h1>
+    <div class="hero-label" data-i18n="hero_label">⚡ Pagá con Lightning Network</div>
+    <h1 data-i18n="hero_title_html">Objetos de<br>diseño</h1>
     <div class="hero-line"></div>
-    <p>Piezas únicas inspiradas en Bitcoin.</p>
+    <p data-i18n="hero_sub">Piezas únicas inspiradas en Bitcoin.</p>
   </section>
 
   <!-- Grid -->
@@ -643,13 +649,13 @@
               <div class="summary-price" id="summary-price"></div>
             </div>
           </div>
-          <p class="confirm-note">
+          <p class="confirm-note" data-i18n="confirm_note">
             Se generará un invoice Lightning por el monto exacto. Pagalo desde cualquier wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.
           </p>
-          <button class="btn-primary" onclick="generateInvoice()">
+          <button class="btn-primary" onclick="generateInvoice()" data-i18n="btn_generate">
             ⚡ &nbsp;Generar Invoice
           </button>
-          <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn-secondary" onclick="closeModal()" data-i18n="btn_cancel">Cancelar</button>
         </div>
 
         <!-- Step 2: Pagar -->
@@ -665,25 +671,93 @@
             <button class="btn-copy" id="copy-btn" onclick="copyInvoice()">Copiar invoice</button>
             <div class="waiting-label">
               <span class="pulse-dot"></span>
-              Esperando confirmación de pago
+              <span data-i18n="waiting_scan">Escaneá el QR y pagá desde tu wallet</span>
             </div>
-            <button class="btn-paid" onclick="confirmPayment()">✓ &nbsp;Ya pagué</button>
+            <div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border-md);">
+              <p id="post-pay-text" style="font-size:0.85rem;color:var(--text);margin-bottom:14px;line-height:1.5;" data-i18n="post_pay_text_html">
+                Una vez realizado el pago, presioná <strong>"Ya pagué"</strong> para coordinar la entrega de tu pieza.
+              </p>
+              <button class="btn-primary" onclick="confirmPayment()" style="background:var(--gold);font-size:1rem;padding:14px 24px;width:100%;" data-i18n="btn_paid">
+                ✓ &nbsp;Ya pagué
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- Step 3: Éxito -->
         <div class="step" id="step-success">
           <div class="success-symbol">✦</div>
-          <h3>¡Pago confirmado!</h3>
-          <p>Tu pedido está registrado. Gracias por apoyar el arte Bitcoin.</p>
+          <h3 data-i18n="success_title">¡Pago confirmado!</h3>
+          <p data-i18n="success_desc">Tu pedido está registrado. Gracias por apoyar el arte Bitcoin.</p>
           <div class="success-detail" id="success-detail">
-            📦 <strong>Próximos pasos</strong><br>
-            Te contactaremos para coordinar el envío o retiro de tu pieza.<br><br>
-            🔖 <strong>Número de pedido:</strong> <span id="order-id">—</span>
+            🔖 <strong data-i18n="order_number">Número de pedido:</strong> <span id="order-id">—</span>
           </div>
-          <button class="btn-primary" onclick="closeModal()" style="background:var(--gold)">
-            Cerrar
+          <p style="margin:20px 0 10px;font-size:0.85rem;color:var(--text-mid);" data-i18n="shipping_question">¿Cómo querés coordinar el envío?</p>
+          <button class="btn-primary" onclick="showStep('shipping-nokyc')" style="background:var(--gold);margin-bottom:10px;" data-i18n="btn_nokyc">
+            🔒 &nbsp;Sin KYC — Coordinar por Telegram
           </button>
+          <button class="btn-primary" onclick="showStep('shipping-kyc')" style="background:var(--text);color:var(--bg);" data-i18n="btn_kyc">
+            📦 &nbsp;Con datos — Envío a domicilio
+          </button>
+        </div>
+
+        <!-- Step 4a: Sin KYC -->
+        <div class="step" id="step-shipping-nokyc">
+          <div class="success-symbol">🔒</div>
+          <h3 data-i18n="nokyc_title">Coordiná por Telegram</h3>
+          <p style="margin:15px 0;font-size:0.85rem;color:var(--text-mid);line-height:1.6;" data-i18n="nokyc_desc">
+            Sin datos personales. Contactanos directamente y coordinamos el envío de forma privada.
+          </p>
+          <div class="success-detail">
+            🔖 <strong data-i18n="nokyc_order">Tu pedido:</strong> <span class="order-id-copy">—</span><br><br>
+            <span data-i18n="nokyc_mention">Mencioná tu número de pedido en el mensaje.</span>
+          </div>
+          <a href="https://t.me/abstract_lai" target="_blank" class="btn-primary" style="background:var(--gold);display:block;text-align:center;text-decoration:none;margin-top:16px;">
+            Abrir Telegram →
+          </a>
+          <button class="btn-secondary" onclick="closeModal()" style="margin-top:10px;">Cerrar</button>
+        </div>
+
+        <!-- Step 4b: Con KYC -->
+        <div class="step" id="step-shipping-kyc">
+          <div class="success-symbol">📦</div>
+          <h3 data-i18n="kyc_title">Datos de envío</h3>
+          <p style="margin:10px 0 16px;font-size:0.8rem;color:var(--text-dim);" data-i18n="kyc_desc">Completá tus datos para recibir el pedido en tu domicilio.</p>
+          <form id="shipping-form" onsubmit="submitShipping(event)" style="text-align:left;">
+            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_name">NOMBRE COMPLETO</label>
+            <input type="text" id="ship-name" required style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
+
+            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_address">DIRECCIÓN</label>
+            <input type="text" id="ship-address" required data-i18n-placeholder="placeholder_address" placeholder="Calle, número, piso, depto" style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
+
+            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_city">CIUDAD / LOCALIDAD</label>
+            <input type="text" id="ship-city" required style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
+
+            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_zip">CÓDIGO POSTAL</label>
+            <input type="text" id="ship-zip" required style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
+
+            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_country">PAÍS</label>
+            <input type="text" id="ship-country" required value="Argentina" style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
+
+            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_contact">TELÉFONO O EMAIL</label>
+            <input type="text" id="ship-contact" required data-i18n-placeholder="placeholder_contact" placeholder="Para coordinar la entrega" style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:18px;">
+
+            <button type="submit" class="btn-primary" style="background:var(--gold);width:100%;" data-i18n="btn_confirm_shipping">Confirmar envío</button>
+          </form>
+          <button class="btn-secondary" onclick="showStep('success')" style="margin-top:8px;" data-i18n="btn_back">← Volver</button>
+        </div>
+
+        <!-- Step 4c: Confirmación envío -->
+        <div class="step" id="step-shipping-done">
+          <div class="success-symbol">✅</div>
+          <h3 data-i18n="done_title">¡Listo!</h3>
+          <p style="margin:15px 0;font-size:0.85rem;color:var(--text-mid);line-height:1.6;" data-i18n="done_desc">
+            Recibimos tus datos. Te contactaremos para confirmar el envío de tu pieza.
+          </p>
+          <div class="success-detail">
+            🔖 <strong>Pedido:</strong> <span class="order-id-copy">—</span>
+          </div>
+          <button class="btn-primary" onclick="closeModal()" style="background:var(--gold);margin-top:16px;">Cerrar</button>
         </div>
 
       </div>
@@ -696,40 +770,43 @@
     const PRODUCTS = [
       {
         id: "dije-001",
-        name: "Stay humble and stack sats",
-        label: "Dije de plata 925 · Barra grabada",
-        desc: "Nada mas que agregar. Recordatorio diario. Barra de plata 925 con grabado artesanal.",
-        sats: 359000,
+        name: { es: "Stay humble and stack sats", en: "Stay humble and stack sats" },
+        label: { es: "Dije de plata 925 · Barra grabada", en: "925 Silver pendant · Engraved bar" },
+        desc: { es: "Nada mas que agregar. Recordatorio diario. Barra de plata 925 con grabado artesanal.", en: "Nothing more to add. A daily reminder. 925 silver bar with artisan engraving." },
+        sats: 21,
         icon: "🥈",
         image: "/images/stay-humble.jpg",
+        imageHover: "/images/barritas-caja.jpg",
         available: true,
       },
       {
         id: "dije-002",
-        name: "Fix the Money, Fix the World",
-        label: "Dije de plata 925 · Barra grabada",
-        desc: "Una declaración de principios. Plata 925 con mensaje que trasciende.",
-        sats: 359000,
+        name: { es: "Fix the Money, Fix the World", en: "Fix the Money, Fix the World" },
+        label: { es: "Dije de plata 925 · Barra grabada", en: "925 Silver pendant · Engraved bar" },
+        desc: { es: "Una declaración de principios. Plata 925 con mensaje que trasciende.", en: "A declaration of principles. 925 silver with a message that transcends." },
+        sats: 21,
         icon: "🥈",
         image: "/images/fix-the-money.jpg",
+        imageHover: "/images/barritas-caja.jpg",
         available: true,
       },
       {
         id: "dije-003",
-        name: "Proof of Work, Proof of Soul",
-        label: "Dije de plata 925 · Barra grabada",
-        desc: "La filosofía del esfuerzo genuino, grabada en plata 925 para siempre.",
-        sats: 359000,
+        name: { es: "Proof of Work, Proof of Soul", en: "Proof of Work, Proof of Soul" },
+        label: { es: "Dije de plata 925 · Barra grabada", en: "925 Silver pendant · Engraved bar" },
+        desc: { es: "La filosofía del esfuerzo genuino, grabada en plata 925 para siempre.", en: "The philosophy of genuine effort, engraved in 925 silver forever." },
+        sats: 21,
         icon: "🥈",
         image: "/images/proof-of-work.jpg",
+        imageHover: "/images/barritas-caja.jpg",
         available: true,
       },
       {
         id: "dije-004",
-        name: "Bloque 21",
-        label: "Dije de plata 925",
-        desc: "Simple. Minimalista. Poderoso. 21 millones y nada mas.",
-        sats: 359000,
+        name: { es: "Bloque 21", en: "Block 21" },
+        label: { es: "Dije de plata 925", en: "925 Silver pendant" },
+        desc: { es: "Simple. Minimalista. Poderoso. 21 millones y nada mas.", en: "Simple. Minimalist. Powerful. 21 million and nothing more." },
+        sats: 21,
         icon: "✦",
         image: "/images/colgante-21.jpg",
         imageHover: "/images/collar-bloque21.jpg",
@@ -737,10 +814,10 @@
       },
       {
         id: "dije-005",
-        name: "Dije Rayo ⚡",
-        label: "Dije de plata 925",
-        desc: "El símbolo de Lightning Network en plata 925. Rápido, elegante, definitivo.",
-        sats: 157000,
+        name: { es: "Dije Rayo ⚡", en: "Lightning Pendant ⚡" },
+        label: { es: "Dije de plata 925", en: "925 Silver pendant" },
+        desc: { es: "El símbolo de Lightning Network en plata 925. Rápido, elegante, definitivo.", en: "The Lightning Network symbol in 925 silver. Fast, elegant, definitive." },
+        sats: 21,
         icon: "⚡",
         image: "/images/dije-rayo.jpg",
         imageHover: "/images/collar-rayo.jpg",
@@ -748,9 +825,9 @@
       },
       {
         id: "dije-006",
-        name: "Próximamente",
-        label: "Nueva pieza · En desarrollo",
-        desc: "Una nueva pieza está en camino. Seguinos para enterarte primero.",
+        name: { es: "Próximamente", en: "Coming soon" },
+        label: { es: "Nueva pieza · En desarrollo", en: "New piece · In development" },
+        desc: { es: "Una nueva pieza está en camino. Seguinos para enterarte primero.", en: "A new piece is on its way. Follow us to be the first to know." },
         sats: null,
         icon: "✦",
         image: null,
@@ -769,32 +846,34 @@
     }
 
     function renderProducts() {
+      const t = (typeof T !== 'undefined' && T[currentLang]) ? T[currentLang] : {badge_available:"● Disponible",badge_soon:"◌ Próximamente",placeholder_soon:"Próximamente",price_soon:"Precio próximamente",btn_buy:"⚡ Comprar",btn_soon:"Próximamente"};
+      const lang = currentLang || 'es';
       document.getElementById("shop-grid").innerHTML = PRODUCTS.map(p => `
         <article class="card" onclick="${p.available ? `openCheckout('${p.id}')` : ''}">
           <div class="card-image">
             ${p.image
-              ? `<img src="${p.image}" alt="${p.name}" loading="lazy" class="img-main">
-                 ${p.imageHover ? `<img src="${p.imageHover}" alt="${p.name} look" loading="lazy" class="img-hover">` : ''}`
+              ? `<img src="${p.image}" alt="${p.name[lang]}" loading="lazy" class="img-main">
+                 ${p.imageHover ? `<img src="${p.imageHover}" alt="${p.name[lang]} look" loading="lazy" class="img-hover">` : ''}`
               : `<div class="placeholder">
                    <div class="placeholder-symbol">${p.icon}</div>
-                   <div class="placeholder-text">Próximamente</div>
+                   <div class="placeholder-text">${t.placeholder_soon}</div>
                  </div>`
             }
             <span class="card-badge ${p.available ? 'badge-available' : 'badge-soon'}">
-              ${p.available ? '● Disponible' : '◌ Próximamente'}
+              ${p.available ? t.badge_available : t.badge_soon}
             </span>
           </div>
           <div class="card-body">
-            <p class="card-label">${p.label}</p>
-            <h2 class="card-title">${p.name}</h2>
-            <p class="card-desc">${p.desc}</p>
+            <p class="card-label">${p.label[lang]}</p>
+            <h2 class="card-title">${p.name[lang]}</h2>
+            <p class="card-desc">${p.desc[lang]}</p>
             <div class="card-footer">
-              <span class="price-sats">${p.sats ? `${formatSats(p.sats)} <em>sats ⚡</em>` : '<em style="font-size:0.8rem">Precio próximamente</em>'}</span>
+              <span class="price-sats">${p.sats ? `${formatSats(p.sats)} <em>sats ⚡</em>` : `<em style="font-size:0.8rem">${t.price_soon}</em>`}</span>
               ${p.available
                 ? `<button class="btn-buy" onclick="event.stopPropagation(); openCheckout('${p.id}')">
-                     ⚡ Comprar
+                     ${t.btn_buy}
                    </button>`
-                : `<button class="btn-buy" disabled>Próximamente</button>`
+                : `<button class="btn-buy" disabled>${t.btn_soon}</button>`
               }
             </div>
           </div>
@@ -802,7 +881,7 @@
       `).join("");
     }
 
-    renderProducts();
+    // renderProducts() se llama desde setLang() al cargar
 
     // ── Modal ─────────────────────────────────
     window.openCheckout = function(id) {
@@ -810,8 +889,8 @@
       if (!currentProduct) return;
 
       document.getElementById("summary-icon").textContent = currentProduct.icon;
-      document.getElementById("summary-name").textContent = currentProduct.name;
-      document.getElementById("summary-label").textContent = currentProduct.label;
+      document.getElementById("summary-name").textContent = currentProduct.name[currentLang];
+      document.getElementById("summary-label").textContent = currentProduct.label[currentLang];
       document.getElementById("summary-price").textContent = `⚡ ${formatSats(currentProduct.sats)} sats`;
       document.getElementById("modal-title").textContent = "Confirmar compra";
 
@@ -849,8 +928,12 @@
         const lnurlData = await lnurlRes.json();
 
         const amountMsat = currentProduct.sats * 1000;
-        const comment = encodeURIComponent(`Hash21 Shop — ${currentProduct.name}`);
-        const invoiceRes = await fetch(`${lnurlData.callback}?amount=${amountMsat}&comment=${comment}`);
+        let callbackUrl = `${lnurlData.callback}?amount=${amountMsat}`;
+        if (lnurlData.commentAllowed && lnurlData.commentAllowed > 0) {
+          const comment = encodeURIComponent(`Hash21 Shop — ${currentProduct.name.en}`);
+          callbackUrl += `&comment=${comment}`;
+        }
+        const invoiceRes = await fetch(callbackUrl);
         if (!invoiceRes.ok) throw new Error("Error al generar invoice");
         const invoiceData = await invoiceRes.json();
         if (invoiceData.status === "ERROR") throw new Error(invoiceData.reason);
@@ -901,9 +984,167 @@
     window.confirmPayment = function(preimage) {
       const orderId = "H21-" + Date.now().toString(36).toUpperCase();
       document.getElementById("order-id").textContent = orderId;
+      document.querySelectorAll(".order-id-copy").forEach(el => el.textContent = orderId);
       document.getElementById("modal-title").textContent = "¡Gracias!";
       showStep("success");
     };
+
+    window.submitShipping = function(e) {
+      e.preventDefault();
+      const data = {
+        order: document.querySelector(".order-id-copy")?.textContent,
+        product: currentProduct?.name?.es || currentProduct?.name,
+        name: document.getElementById("ship-name").value,
+        address: document.getElementById("ship-address").value,
+        city: document.getElementById("ship-city").value,
+        zip: document.getElementById("ship-zip").value,
+        country: document.getElementById("ship-country").value,
+        contact: document.getElementById("ship-contact").value,
+        timestamp: new Date().toISOString()
+      };
+      // Guardar en localStorage como backup
+      const orders = JSON.parse(localStorage.getItem("h21-orders") || "[]");
+      orders.push(data);
+      localStorage.setItem("h21-orders", JSON.stringify(orders));
+      console.log("📦 Order shipping data:", data);
+      showStep("shipping-done");
+    };
+
+    // ── i18n ──────────────────────────────────
+    const T = {
+      es: {
+        nav_back: "← Galería",
+        hero_label: "⚡ Pagá con Lightning Network",
+        hero_title_html: "Objetos de<br>diseño",
+        hero_sub: "Piezas únicas inspiradas en Bitcoin.",
+        confirm_note: "Se generará un invoice Lightning por el monto exacto. Pagalo desde cualquier wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.",
+        btn_generate: "⚡  Generar Invoice",
+        btn_cancel: "Cancelar",
+        waiting_scan: "Escaneá el QR y pagá desde tu wallet",
+        post_pay_text_html: 'Una vez realizado el pago, presioná <strong>"Ya pagué"</strong> para coordinar la entrega de tu pieza.',
+        btn_paid: "✓  Ya pagué",
+        success_title: "¡Pago confirmado!",
+        success_desc: "Tu pedido está registrado. Gracias por apoyar el arte Bitcoin.",
+        order_number: "Número de pedido:",
+        shipping_question: "¿Cómo querés coordinar el envío?",
+        btn_nokyc: "🔒  Sin KYC — Coordinar por Telegram",
+        btn_kyc: "📦  Con datos — Envío a domicilio",
+        nokyc_title: "Coordiná por Telegram",
+        nokyc_desc: "Sin datos personales. Contactanos directamente y coordinamos el envío de forma privada.",
+        nokyc_order: "Tu pedido:",
+        nokyc_mention: "Mencioná tu número de pedido en el mensaje.",
+        kyc_title: "Datos de envío",
+        kyc_desc: "Completá tus datos para recibir el pedido en tu domicilio.",
+        label_name: "NOMBRE COMPLETO",
+        label_address: "DIRECCIÓN",
+        placeholder_address: "Calle, número, piso, depto",
+        label_city: "CIUDAD / LOCALIDAD",
+        label_zip: "CÓDIGO POSTAL",
+        label_country: "PAÍS",
+        label_contact: "TELÉFONO O EMAIL",
+        placeholder_contact: "Para coordinar la entrega",
+        btn_confirm_shipping: "Confirmar envío",
+        btn_back: "← Volver",
+        done_title: "¡Listo!",
+        done_desc: "Recibimos tus datos. Te contactaremos para confirmar el envío de tu pieza.",
+        btn_close: "Cerrar",
+        badge_available: "● Disponible",
+        badge_soon: "◌ Próximamente",
+        placeholder_soon: "Próximamente",
+        price_soon: "Precio próximamente",
+        btn_buy: "⚡ Comprar",
+        btn_soon: "Próximamente",
+        modal_confirm: "Confirmar compra",
+        modal_scan: "Escanear para pagar",
+        modal_thanks: "¡Gracias!",
+        copy_invoice: "Copiar invoice",
+        copy_done: "✓ Copiado",
+        telegram_btn: "Abrir Telegram →"
+      },
+      en: {
+        nav_back: "← Gallery",
+        hero_label: "⚡ Pay with Lightning Network",
+        hero_title_html: "Design<br>objects",
+        hero_sub: "Unique pieces inspired by Bitcoin.",
+        confirm_note: "A Lightning invoice will be generated for the exact amount. Pay from any wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.",
+        btn_generate: "⚡  Generate Invoice",
+        btn_cancel: "Cancel",
+        waiting_scan: "Scan the QR and pay from your wallet",
+        post_pay_text_html: 'Once payment is made, press <strong>"I paid"</strong> to choose your delivery method.',
+        btn_paid: "✓  I paid",
+        success_title: "Payment confirmed!",
+        success_desc: "Your order is registered. Thanks for supporting Bitcoin art.",
+        order_number: "Order number:",
+        shipping_question: "How would you like to arrange delivery?",
+        btn_nokyc: "🔒  No KYC — Coordinate via Telegram",
+        btn_kyc: "📦  With details — Home delivery",
+        nokyc_title: "Coordinate via Telegram",
+        nokyc_desc: "No personal data required. Contact us directly and we'll arrange private shipping.",
+        nokyc_order: "Your order:",
+        nokyc_mention: "Mention your order number in the message.",
+        kyc_title: "Shipping details",
+        kyc_desc: "Fill in your details to receive your order at home.",
+        label_name: "FULL NAME",
+        label_address: "ADDRESS",
+        placeholder_address: "Street, number, floor, apt",
+        label_city: "CITY",
+        label_zip: "ZIP CODE",
+        label_country: "COUNTRY",
+        label_contact: "PHONE OR EMAIL",
+        placeholder_contact: "To coordinate delivery",
+        btn_confirm_shipping: "Confirm shipping",
+        btn_back: "← Back",
+        done_title: "Done!",
+        done_desc: "We received your details. We'll contact you to confirm shipping.",
+        btn_close: "Close",
+        badge_available: "● Available",
+        badge_soon: "◌ Coming soon",
+        placeholder_soon: "Coming soon",
+        price_soon: "Price coming soon",
+        btn_buy: "⚡ Buy",
+        btn_soon: "Coming soon",
+        modal_confirm: "Confirm purchase",
+        modal_scan: "Scan to pay",
+        modal_thanks: "Thank you!",
+        copy_invoice: "Copy invoice",
+        copy_done: "✓ Copied",
+        telegram_btn: "Open Telegram →"
+      }
+    };
+
+    let currentLang = localStorage.getItem('hash21-lang') || 'es';
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('hash21-lang', lang);
+      const t = T[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+          if (key.endsWith('_html')) {
+            el.innerHTML = t[key];
+          } else {
+            el.textContent = t[key];
+          }
+        }
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.style.fontWeight = btn.textContent.trim().toLowerCase() === lang ? '600' : '300';
+        btn.style.color = btn.textContent.trim().toLowerCase() === lang ? 'var(--gold)' : 'var(--text-mid)';
+      });
+      document.documentElement.lang = lang;
+      renderProducts();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+    } else {
+      setLang(currentLang);
+    }
   </script>
 
 </body>
