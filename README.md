@@ -4,13 +4,13 @@ Tienda de joyería artesanal Bitcoin con pagos nativos Lightning Network.
 
 ## ¿Qué es?
 
-Hash21 Shop es una tienda real de joyería de plata 925 con temática Bitcoin. Cada pieza se paga directamente con Lightning Network — sin intermediarios, sin KYC, sin procesadores de pago tradicionales.
+Hash21 Shop es la tienda de objetos de diseño de la Galeria de arte inspirado en Bitcoin Hash 21. Cada objeto es único y diseñado por artistas y se paga directamente con Lightning Network — sin intermediarios, sin KYC, sin procesadores de pago tradicionales.
 
 **Live:** [hash21.studio/shop](https://hash21.studio/shop)
 
 ## ¿Cómo funciona?
 
-1. El usuario elige una pieza de joyería
+1. El usuario elige un objeto.
 2. Click en "Comprar con Lightning ⚡"
 3. Se genera un invoice via LNURL (Lightning Address)
 4. El usuario escanea el QR con su wallet Lightning
