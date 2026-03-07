@@ -92,6 +92,11 @@ const LIGHTNING_ADDRESS = "tu@walletofsatoshi.com";
 
 Proyecto presentado en **Lightning Hackathons 2026 — FOUNDATIONS** de [La Crypta](https://lacrypta.ar).
 
+## Equipo
+
+- **Abstract Lai** (@warrior-lai) — Diseño, producto, arte
+- **Ragnar** 🪓 — AI assistant, desarrollo, estrategia
+
 ## Licencia
 
 MIT
