@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — Hash21 Studio ⚡</title>
+
+  <!-- Mismas fuentes que hash21.studio -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Variables — exactas de hash21.studio ─── */
+    :root {
+      --bg:        #fafaf8;
+      --bg2:       #f2f0ec;
+      --bg3:       #eae8e3;
+      --text:      #1a1a1a;
+      --text-dim:  #999;
+      --text-mid:  #666;
+      --gold:      #b08d57;
+      --gold-dim:  rgba(176,141,87,0.15);
+      --gold-grad: linear-gradient(135deg, #c9a84c, #e8d5a3, #b08d57);
+      --border:    rgba(0,0,0,0.07);
+      --border-md: rgba(0,0,0,0.12);
+      --available: #2dd4a8;
+      --radius:    2px;
+      --shadow:    0 4px 30px rgba(0,0,0,0.06);
+      --shadow-hover: 0 12px 48px rgba(176,141,87,0.12);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-back {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-back:hover { color: var(--gold); }
+
+    /* ── Hero ───────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 96px 48px 72px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .hero-line {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 24px auto;
+    }
+
+    .hero p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Grid ───────────────────────────────── */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border-md);
+      max-width: 1280px;
+      margin: 60px auto;
+      border: 1px solid var(--border-md);
+    }
+
+    /* ── Product Card ───────────────────────── */
+    .card {
+      background: var(--bg);
+      cursor: pointer;
+      transition: background 0.3s;
+      position: relative;
+    }
+    .card:hover { background: var(--bg2); }
+
+    .card-image {
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg2);
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s;
+      filter: saturate(0.85);
+    }
+    .card:hover .card-image img {
+      transform: scale(1.05);
+      filter: saturate(1);
+    }
+    .card-image .img-hover {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    .card:hover .card-image .img-hover { opacity: 1; }
+    .card:hover .card-image .img-main  { opacity: 0; }
+
+    /* Placeholder sin imagen */
+    .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: var(--bg3);
+    }
+    .placeholder-symbol {
+      font-size: 2.5rem;
+      opacity: 0.3;
+    }
+    .placeholder-text {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .badge-available {
+      color: var(--available);
+      border: 1px solid rgba(45,212,168,0.3);
+      background: rgba(45,212,168,0.06);
+    }
+    .badge-soon {
+      color: var(--gold);
+      border: 1px solid rgba(176,141,87,0.3);
+      background: rgba(176,141,87,0.06);
+    }
+
+    .card-body {
+      padding: 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 22px;
+      letter-spacing: 0.01em;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .price-sats {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .price-sats em {
+      font-style: normal;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 4px;
+    }
+
+    .btn-buy {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid var(--gold);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-buy:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+    .btn-buy:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ── Modal ──────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26,26,26,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--bg);
+      border: 1px solid var(--border-md);
+      width: 100%;
+      max-width: 440px;
+      overflow: hidden;
+      transform: translateY(16px);
+      transition: transform 0.3s;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.15);
+    }
+    .overlay.open .modal { transform: translateY(0); }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-header h3 {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.3rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body { padding: 28px; }
+
+    /* Step confirm */
+    .product-summary {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .summary-info h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .summary-info p { font-size: 0.75rem; color: var(--text-dim); }
+    .summary-info .summary-price {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gold);
+      margin-top: 6px;
+    }
+
+    .confirm-note {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 22px;
+      padding: 12px 14px;
+      background: rgba(176,141,87,0.04);
+      border-left: 2px solid var(--gold);
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--text);
+      color: var(--bg);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-primary:hover { background: var(--gold); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      color: var(--text-mid);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-md);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    .btn-secondary:hover { color: var(--text); border-color: var(--text); }
+
+    /* Step invoice */
+    .loading-state {
+      text-align: center;
+      padding: 32px 0;
+    }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border-md);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .qr-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #qr-img {
+      border: 4px solid var(--gold);
+      padding: 10px;
+      background: white;
+      width: 200px;
+      height: 200px;
+    }
+
+    .invoice-string {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      color: var(--text-dim);
+      font-family: monospace;
+      font-size: 0.62rem;
+      word-break: break-all;
+      line-height: 1.5;
+      max-height: 52px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .btn-copy {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid var(--border-md);
+      color: var(--text-mid);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-copy:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-copy.copied { border-color: var(--available); color: var(--available); }
+
+    .waiting-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.3; transform:scale(0.6); }
+    }
+
+    .btn-paid {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--available);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(45,212,168,0.3);
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 4px;
+    }
+    .btn-paid:hover { background: rgba(45,212,168,0.06); }
+
+    /* Step success */
+    #step-success {
+      text-align: center;
+      padding: 12px 0;
+    }
+    .success-symbol {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+      animation: fadeUp 0.5s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    #step-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    #step-success p {
+      color: var(--text-mid);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+    .success-detail {
+      font-size: 0.76rem;
+      color: var(--text-mid);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 14px;
+      margin-bottom: 22px;
+      text-align: left;
+      line-height: 1.8;
+    }
+
+    /* Steps */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* ── Footer ─────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 48px 40px;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ─────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 60px 20px 48px; }
+      .shop-grid { margin: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="https://hash21.studio">Hash<span>21</span></a>
+    <a class="nav-back" href="https://hash21.studio">← Galería</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-label">⚡ Pagá con Lightning Network</div>
+    <h1>Objetos de<br>diseño</h1>
+    <div class="hero-line"></div>
+    <p>Piezas únicas inspiradas en Bitcoin.</p>
+  </section>
+
+  <!-- Grid -->
+  <main class="shop-grid" id="shop-grid"></main>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      <a href="https://hash21.studio">Hash21 Studio</a>
+      &ensp;·&ensp;
+      Lightning Network ⚡
+      &ensp;·&ensp;
+      <a href="https://hackaton.lacrypta.ar">Hackathon 2026</a>
+    </p>
+  </footer>
+
+  <!-- Modal -->
+  <div class="overlay" id="overlay" onclick="closeOnOverlay(event)">
+    <div class="modal" role="dialog" aria-modal="true">
+
+      <div class="modal-header">
+        <h3 id="modal-title">Checkout</h3>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Step 1: Confirmar -->
+        <div class="step active" id="step-confirm">
+          <div class="product-summary">
+            <div class="summary-icon" id="summary-icon">🥈</div>
+            <div class="summary-info">
+              <h4 id="summary-name"></h4>
+              <p id="summary-label"></p>
+              <div class="summary-price" id="summary-price"></div>
+            </div>
+          </div>
+          <p class="confirm-note">
+            Se generará un invoice Lightning por el monto exacto. Pagalo desde cualquier wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.
+          </p>
+          <button class="btn-primary" onclick="generateInvoice()">
+            ⚡ &nbsp;Generar Invoice
+          </button>
+          <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+        </div>
+
+        <!-- Step 2: Pagar -->
+        <div class="step" id="step-invoice">
+          <div class="loading-state" id="loading-state">
+            <div class="spinner"></div>
+            <p style="color:var(--text-dim);font-size:0.8rem;letter-spacing:0.05em;">Generando invoice...</p>
+          </div>
+
+          <div class="qr-wrapper" id="qr-wrapper" style="display:none">
+            <img id="qr-img" src="" alt="QR de pago Lightning" width="200" height="200">
+            <div class="invoice-string" id="invoice-string" onclick="copyInvoice()" title="Click para copiar"></div>
+            <button class="btn-copy" id="copy-btn" onclick="copyInvoice()">Copiar invoice</button>
+            <div class="waiting-label">
+              <span class="pulse-dot"></span>
+              Esperando confirmación de pago
+            </div>
+            <button class="btn-paid" onclick="confirmPayment()">✓ &nbsp;Ya pagué</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Éxito -->
+        <div class="step" id="step-success">
+          <div class="success-symbol">✦</div>
+          <h3>¡Pago confirmado!</h3>
+          <p>Tu pedido está registrado. Gracias por apoyar el arte Bitcoin.</p>
+          <div class="success-detail" id="success-detail">
+            📦 <strong>Próximos pasos</strong><br>
+            Te contactaremos para coordinar el envío o retiro de tu pieza.<br><br>
+            🔖 <strong>Número de pedido:</strong> <span id="order-id">—</span>
+          </div>
+          <button class="btn-primary" onclick="closeModal()" style="background:var(--gold)">
+            Cerrar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Productos ─────────────────────────────
+    // 📸 Cambiá image: null → "/images/tu-foto.jpg" cuando tengas las fotos
+    const PRODUCTS = [
+      {
+        id: "dije-001",
+        name: "Stay humble and stack sats",
+        label: "Dije de plata 925 · Barra grabada",
+        desc: "Nada mas que agregar. Recordatorio diario. Barra de plata 925 con grabado artesanal.",
+        sats: 359000,
+        icon: "🥈",
+        image: "/images/stay-humble.jpg",
+        available: true,
+      },
+      {
+        id: "dije-002",
+        name: "Fix the Money, Fix the World",
+        label: "Dije de plata 925 · Barra grabada",
+        desc: "Una declaración de principios. Plata 925 con mensaje que trasciende.",
+        sats: 359000,
+        icon: "🥈",
+        image: "/images/fix-the-money.jpg",
+        available: true,
+      },
+      {
+        id: "dije-003",
+        name: "Proof of Work, Proof of Soul",
+        label: "Dije de plata 925 · Barra grabada",
+        desc: "La filosofía del esfuerzo genuino, grabada en plata 925 para siempre.",
+        sats: 359000,
+        icon: "🥈",
+        image: "/images/proof-of-work.jpg",
+        available: true,
+      },
+      {
+        id: "dije-004",
+        name: "Bloque 21",
+        label: "Dije de plata 925",
+        desc: "Simple. Minimalista. Poderoso. 21 millones y nada mas.",
+        sats: 359000,
+        icon: "✦",
+        image: "/images/colgante-21.jpg",
+        imageHover: "/images/collar-bloque21.jpg",
+        available: true,
+      },
+      {
+        id: "dije-005",
+        name: "Dije Rayo ⚡",
+        label: "Dije de plata 925",
+        desc: "El símbolo de Lightning Network en plata 925. Rápido, elegante, definitivo.",
+        sats: 157000,
+        icon: "⚡",
+        image: "/images/dije-rayo.jpg",
+        imageHover: "/images/collar-rayo.jpg",
+        available: true,
+      },
+      {
+        id: "dije-006",
+        name: "Próximamente",
+        label: "Nueva pieza · En desarrollo",
+        desc: "Una nueva pieza está en camino. Seguinos para enterarte primero.",
+        sats: null,
+        icon: "✦",
+        image: null,
+        available: false,
+      },
+    ];
+
+    const LIGHTNING_ADDRESS = "crustycoil11@walletofsatoshi.com";
+
+    let currentProduct = null;
+    let currentInvoice = null;
+
+    // ── Render ────────────────────────────────
+    function formatSats(n) {
+      return n.toLocaleString("es-AR");
+    }
+
+    function renderProducts() {
+      document.getElementById("shop-grid").innerHTML = PRODUCTS.map(p => `
+        <article class="card" onclick="${p.available ? `openCheckout('${p.id}')` : ''}">
+          <div class="card-image">
+            ${p.image
+              ? `<img src="${p.image}" alt="${p.name}" loading="lazy" class="img-main">
+                 ${p.imageHover ? `<img src="${p.imageHover}" alt="${p.name} look" loading="lazy" class="img-hover">` : ''}`
+              : `<div class="placeholder">
+                   <div class="placeholder-symbol">${p.icon}</div>
+                   <div class="placeholder-text">Próximamente</div>
+                 </div>`
+            }
+            <span class="card-badge ${p.available ? 'badge-available' : 'badge-soon'}">
+              ${p.available ? '● Disponible' : '◌ Próximamente'}
+            </span>
+          </div>
+          <div class="card-body">
+            <p class="card-label">${p.label}</p>
+            <h2 class="card-title">${p.name}</h2>
+            <p class="card-desc">${p.desc}</p>
+            <div class="card-footer">
+              <span class="price-sats">${p.sats ? `${formatSats(p.sats)} <em>sats ⚡</em>` : '<em style="font-size:0.8rem">Precio próximamente</em>'}</span>
+              ${p.available
+                ? `<button class="btn-buy" onclick="event.stopPropagation(); openCheckout('${p.id}')">
+                     ⚡ Comprar
+                   </button>`
+                : `<button class="btn-buy" disabled>Próximamente</button>`
+              }
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    renderProducts();
+
+    // ── Modal ─────────────────────────────────
+    window.openCheckout = function(id) {
+      currentProduct = PRODUCTS.find(p => p.id === id);
+      if (!currentProduct) return;
+
+      document.getElementById("summary-icon").textContent = currentProduct.icon;
+      document.getElementById("summary-name").textContent = currentProduct.name;
+      document.getElementById("summary-label").textContent = currentProduct.label;
+      document.getElementById("summary-price").textContent = `⚡ ${formatSats(currentProduct.sats)} sats`;
+      document.getElementById("modal-title").textContent = "Confirmar compra";
+
+      showStep("confirm");
+      document.getElementById("overlay").classList.add("open");
+      document.body.style.overflow = "hidden";
+    };
+
+    window.closeModal = function() {
+      document.getElementById("overlay").classList.remove("open");
+      document.body.style.overflow = "";
+      currentInvoice = null;
+    };
+
+    window.closeOnOverlay = function(e) {
+      if (e.target === document.getElementById("overlay")) closeModal();
+    };
+
+    function showStep(name) {
+      document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+      document.getElementById("step-" + name).classList.add("active");
+    }
+
+    // ── Generar Invoice ───────────────────────
+    window.generateInvoice = async function() {
+      showStep("invoice");
+      document.getElementById("loading-state").style.display = "block";
+      document.getElementById("qr-wrapper").style.display = "none";
+      document.getElementById("modal-title").textContent = "Escanear para pagar";
+
+      try {
+        const [user, domain] = LIGHTNING_ADDRESS.split("@");
+        const lnurlRes = await fetch(`https://${domain}/.well-known/lnurlp/${user}`);
+        if (!lnurlRes.ok) throw new Error("No se pudo conectar con la wallet");
+        const lnurlData = await lnurlRes.json();
+
+        const amountMsat = currentProduct.sats * 1000;
+        const comment = encodeURIComponent(`Hash21 Shop — ${currentProduct.name}`);
+        const invoiceRes = await fetch(`${lnurlData.callback}?amount=${amountMsat}&comment=${comment}`);
+        if (!invoiceRes.ok) throw new Error("Error al generar invoice");
+        const invoiceData = await invoiceRes.json();
+        if (invoiceData.status === "ERROR") throw new Error(invoiceData.reason);
+
+        currentInvoice = invoiceData.pr;
+
+        // QR via API (sin librería)
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentInvoice.toUpperCase())}&bgcolor=ffffff&color=1a1a1a&margin=8`;
+        document.getElementById("qr-img").src = qrUrl;
+        document.getElementById("invoice-string").textContent = currentInvoice;
+
+        document.getElementById("loading-state").style.display = "none";
+        document.getElementById("qr-wrapper").style.display = "flex";
+
+        // Intentar WebLN si está disponible (extensión Alby)
+        if (window.webln) {
+          try {
+            await window.webln.enable();
+            const result = await window.webln.sendPayment(currentInvoice);
+            if (result?.preimage) confirmPayment(result.preimage);
+          } catch (_) { /* pago manual */ }
+        }
+
+      } catch (err) {
+        document.getElementById("loading-state").innerHTML = `
+          <p style="color:#c0392b;font-size:0.82rem;margin-bottom:16px;">Error: ${err.message}</p>
+          <button class="btn-secondary" onclick="showStep('confirm')" style="width:auto;padding:10px 20px;">← Volver</button>
+        `;
+      }
+    };
+
+    // ── Copiar invoice ────────────────────────
+    window.copyInvoice = async function() {
+      if (!currentInvoice) return;
+      try {
+        await navigator.clipboard.writeText(currentInvoice);
+        const btn = document.getElementById("copy-btn");
+        btn.textContent = "✓ Copiado";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "Copiar invoice";
+          btn.classList.remove("copied");
+        }, 2000);
+      } catch (_) {}
+    };
+
+    // ── Confirmar pago ────────────────────────
+    window.confirmPayment = function(preimage) {
+      const orderId = "H21-" + Date.now().toString(36).toUpperCase();
+      document.getElementById("order-id").textContent = orderId;
+      document.getElementById("modal-title").textContent = "¡Gracias!";
+      showStep("success");
+    };
+  </script>
+
+</body>
+</html>
