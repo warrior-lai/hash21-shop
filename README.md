@@ -1,72 +1,80 @@
-# Hash21 Shop ⚡
+# Hash21 ⚡
 
-Tienda de objetos de diseño inspirados en Bitcoin creados por artistas latinoamericanos y con pagos nativos Lightning Network.
+Plataforma de arte soberano con pagos Lightning nativos. Galería, tienda, zaps y certificación on-chain — todo construido sobre Bitcoin.
 
-## ¿Qué es?
+**Live:** [hash21.studio](https://hash21.studio)
 
-Hash21 Shop es la tienda de objetos de diseño de la Galeria de arte inspirado en Bitcoin Hash 21. Cada objeto es único y diseñado por artistas y se paga directamente con Lightning Network — sin intermediarios, sin KYC, sin procesadores de pago tradicionales.
+## ¿Qué es Hash21?
 
-**Live:** [hash21.studio/shop](https://hash21.studio/shop)
+Hash21 es un hub de arte soberano donde cada obra queda vinculada a un bloque de Bitcoin. Los artistas exhiben, reciben zaps (propinas Lightning) y venden objetos de diseño — sin intermediarios, sin KYC, sin procesadores de pago tradicionales.
 
-## ¿Cómo funciona?
+## Funcionalidades
 
-1. El usuario elige un objeto.
-2. Click en "Comprar con Lightning ⚡"
-3. Se genera un invoice via LNURL (Lightning Address)
-4. El usuario escanea el QR con su wallet Lightning
-5. Pago confirmado → coordina envío
+### ⚡ Zap System (NIP-57)
+- Zap (propina Lightning) en cada obra y cada artista
+- Detección automática de pagos via **Nostr zap receipts** (NIP-57)
+- Frontend escucha múltiples relays Nostr en tiempo real
+- Confirmación visual instantánea al detectar el pago
+- Montos predefinidos (21, 210, 2100, 21K sats) + monto personalizado
+- Mensaje opcional del zapper
 
-### Flow técnico
+### 🛒 Shop — Objetos de Diseño
+- Tienda de joyas y objetos inspirados en Bitcoin
+- Checkout con **LNURL-pay** via Lightning Address
+- QR code generado client-side
+- Opciones post-pago: envío sin KYC (Telegram) o con dirección
+- Bilingüe ES/EN
 
-```
-Usuario → Elige producto → Click comprar
-  → Fetch LNURL metadata desde Lightning Address
-  → Request invoice (amount en msats + comment)
-  → Muestra QR code (bolt11)
-  → Poll payment verification
-  → Confirmación
-```
+### 🖼️ Galería / Colección
+- Carousel horizontal + grilla expandible
+- Lightbox con detalle de obra
+- Obras de múltiples artistas (Lai⚡️, Roxy, Martu, Guadis)
 
-## Stack
+### 👥 Creadores
+- Perfiles de artistas con avatar, bio y links
+- Panel expandible con galería de obras por artista
+- Zap directo al artista
+
+### 📜 Certificación On-Chain
+- Certificados de registro vinculados a un bloque de Bitcoin (OpenTimestamps)
+- Prueba de existencia en el tiempo, permanente e incensurable
+- Verificación pública en hash21.studio/verify
+
+## Stack Técnico
 
 - **Frontend:** HTML/CSS/JS puro (zero frameworks, zero build tools)
-- **Pagos:** LNURL-pay via Lightning Address
-- **QR:** Generación client-side
+- **Pagos:** LNURL-pay + NIP-57 (Nostr zaps)
+- **Detección de pagos:** WebSocket a relays Nostr (kind 9735)
+- **QR:** qrcode@1.5.1 (client-side)
+- **Certificación:** OpenTimestamps (Bitcoin blockchain)
 - **Hosting:** GitHub Pages
-- **Wallet:** Wallet of Satoshi (Lightning Address)
+- **Wallet:** Wallet of Satoshi (Lightning Address con soporte NIP-57)
+- **i18n:** ES/EN completo
 
-## Características
+## Flow de Pago (NIP-57)
 
-- ⚡ Pagos Lightning nativos (LNURL-pay)
-- 🎨 Diseño premium, responsive, mobile-first
-- 🖼️ Galería de productos con hover effects
-- 💬 Comentario del comprador incluido en el invoice
-- 📱 QR code para escanear desde cualquier wallet
-- 🔒 Sin backend, sin base de datos, sin servidor
-- 🌐 Bilingüe (ES/EN ready)
-- 0️⃣ Zero dependencias externas
+```
+Usuario → Click ⚡ Zap → Elige monto
+  → Frontend crea zap request (kind 9734)
+  → Fetch LNURL-pay + envía nostr zap request
+  → WoS devuelve invoice Lightning
+  → Muestra QR (bolt11)
+  → Frontend escucha relays Nostr (WebSocket)
+  → WoS publica zap receipt (kind 9735)
+  → Frontend detecta pago → ✅ Confirmación instantánea
+```
 
-## Correr localmente
+## Correr Localmente
 
 ```bash
 git clone https://github.com/warrior-lai/hash21-shop.git
 cd hash21-shop
 python3 -m http.server 8000
-# o
-npx serve .
 ```
 
 Abrir http://localhost:8000
 
-## Configuración
-
-Para usar tu propia Lightning Address, editá la variable en `index.html`:
-
-```javascript
-const LIGHTNING_ADDRESS = "tu@walletofsatoshi.com";
-```
-
-## Productos
+## Productos (Shop)
 
 | Pieza | Material | Sats |
 |---|---|---|
@@ -78,24 +86,27 @@ const LIGHTNING_ADDRESS = "tu@walletofsatoshi.com";
 
 ## Por qué Lightning
 
-- **Sin intermediarios:** El pago va directo del comprador al vendedor
+- **Sin intermediarios:** Pago directo del comprador al artista/vendedor
 - **Sin fees absurdos:** Fracciones de centavo vs 3-5% de procesadores tradicionales
-- **Sin KYC:** No necesitás cuenta, email, ni datos personales
-- **Instantáneo:** Confirmación en segundos, no días
-- **Global:** Cualquier persona del mundo puede comprar
+- **Sin KYC:** No necesitás cuenta, email ni datos personales
+- **Instantáneo:** Confirmación en segundos
+- **Global:** Cualquier persona del mundo puede comprar o zapear
+- **Verificable:** NIP-57 publica prueba de pago en Nostr
 
 ## Sobre Hash21
 
-[Hash21](https://hash21.studio) es una galería de arte curada en Bitcoin. Exhibición, certificación y ahora comercio — todo nativo en Lightning Network.
+[Hash21](https://hash21.studio) es una galería de arte curada en Bitcoin. Permanencia para la obra. Soberanía para el artista.
 
 ## Hackathon
 
 Proyecto presentado en **Lightning Hackathons 2026 — FOUNDATIONS** de [La Crypta](https://lacrypta.ar).
 
+Tema: Lightning Payments Basics.
+
 ## Equipo
 
-- **Abstract Lai** (@warrior-lai) — Diseño, producto, arte
-- **Ragnar** 🪓 — AI assistant, desarrollo, estrategia
+- **Lai⚡️** (@warrior-lai) — Fundadora, artista, diseño, producto
+- **Ragnar** 🪓 — Desarrollo, estrategia
 
 ## Licencia
 
@@ -103,4 +114,4 @@ MIT
 
 ---
 
-⚡ Hecho con plata, código y Bitcoin.
+⚡ Hecho con arte, código y Bitcoin.
