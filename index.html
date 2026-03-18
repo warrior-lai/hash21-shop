@@ -1,596 +1,1426 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop — Hash21 Studio ⚡</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hash21 — Galería de Arte Virtual · Bitcoin & Arte</title>
+<meta name="description" content="Hash21: galería de arte inspirado en Bitcoin. Descubre obras certificadas on-chain y únete a la comunidad latinoamericana de artistas soberanos.">
 
-  <!-- Mismas fuentes que hash21.studio -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Hash21 - Galería de arte inspirado en Bitcoin">
+<meta property="og:description" content="Descubre obras certificadas on-chain y únete a la comunidad latinoamericana de artistas soberanos.">
+<meta property="og:image" content="https://hash21.studio/img/obra1.jpg">
+<meta property="og:url" content="https://hash21.studio">
+<meta property="og:type" content="website">
 
-  <style>
-    /* ── Variables — exactas de hash21.studio ─── */
-    :root {
-      --bg:        #fafaf8;
-      --bg2:       #f2f0ec;
-      --bg3:       #eae8e3;
-      --text:      #1a1a1a;
-      --text-dim:  #999;
-      --text-mid:  #666;
-      --gold:      #b08d57;
-      --gold-dim:  rgba(176,141,87,0.15);
-      --gold-grad: linear-gradient(135deg, #c9a84c, #e8d5a3, #b08d57);
-      --border:    rgba(0,0,0,0.07);
-      --border-md: rgba(0,0,0,0.12);
-      --available: #2dd4a8;
-      --radius:    2px;
-      --shadow:    0 4px 30px rgba(0,0,0,0.06);
-      --shadow-hover: 0 12px 48px rgba(176,141,87,0.12);
-    }
+<!-- Schema.org: pending approval -->
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Hash21",
+  "url": "https://hash21.studio",
+  "description": "Galería de arte inspirado en Bitcoin. Descubre obras certificadas on-chain y únete a la comunidad latinoamericana de artistas soberanos."
+}
+</script>
 
-    html { scroll-behavior: smooth; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf8;
+  --bg2: #f2f0ec;
+  --bg3: #eae8e3;
+  --text: #1a1a1a;
+  --text-dim: #999;
+  --text-mid: #666;
+  --accent: #1a1a1a;
+  --gold: #b08d57;
+  --border: rgba(0,0,0,0.07);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  font-weight: 300;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      min-height: 100vh;
-    }
+/* NAV */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 28px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(250,250,248,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+}
+.logo span { color: var(--gold); }
+header ul { display: flex; list-style: none; gap: 40px; align-items: center; }
+header ul a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  font-weight: 400;
+}
+header ul a:hover { color: var(--text); }
 
-    /* ── Nav ────────────────────────────────── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 48px;
-      background: rgba(250,250,248,0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
+/* HAMBURGER MENU */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 5px;
+}
+.hamburger span {
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  margin: 2px 0;
+  transition: 0.3s;
+}
+.hamburger.active span:nth-child(1) {
+  transform: rotate(-45deg) translate(-4px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(45deg) translate(-4px, -5px);
+}
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg);
+  z-index: 99;
+  display: none;
+  padding-top: 80px;
+}
+.nav-overlay.active {
+  display: block;
+}
+.nav-overlay ul {
+  flex-direction: column;
+  gap: 30px;
+  padding: 40px;
+  text-align: center;
+}
+.nav-overlay ul a {
+  font-size: 14px;
+  letter-spacing: 4px;
+}
 
-    .nav-logo {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--gold); }
+/* LANG SWITCH */
+.lang-switch { display: flex; gap: 4px; align-items: center; }
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.lang-btn.active { border-color: var(--gold); color: var(--gold); }
 
-    .nav-back {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      text-decoration: none;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
-    .nav-back:hover { color: var(--gold); }
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(176,141,87,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(176,141,87,0.04) 0%, transparent 40%);
+  animation: shimmer 12s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes shimmer {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  33% { transform: translate(2%,-1%) rotate(0.5deg); }
+  66% { transform: translate(-1%,1%) rotate(-0.5deg); }
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 82px;
+  font-weight: 300;
+  letter-spacing: 18px;
+  animation: fadeUp 1.5s ease-out;
+}
+.hero h1 span {
+  color: var(--gold);
+  background: linear-gradient(135deg, #c9a84c, #e8d5a3, #b08d57);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero .line {
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 35px auto;
+  animation: fadeUp 1.8s ease-out, expandLine 2.5s ease-out;
+}
+@keyframes expandLine {
+  0% { width: 0; opacity: 0; }
+  100% { width: 50px; opacity: 1; }
+}
+.hero .hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 15px;
+  animation: fadeUp 1.8s ease-out;
+  letter-spacing: 1px;
+}
+.hero .hero-description {
+  font-size: 16px;
+  color: var(--text-mid);
+  margin-bottom: 25px;
+  animation: fadeUp 2s ease-out;
+  max-width: 600px;
+  line-height: 1.5;
+}
+.hero .tagline {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  font-weight: 300;
+  animation: fadeUp 2s ease-out;
+}
+.hero .pow {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-mid);
+  font-weight: 300;
+  animation: fadeUp 2.3s ease-out;
+}
+.hero .cta-button {
+  display: inline-block;
+  padding: 15px 35px;
+  border: 2px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  font-weight: 400;
+  animation: fadeUp 2.5s ease-out;
+}
+.hero .cta-button:hover {
+  background: var(--gold);
+  color: white;
+}
+.hero-ctas {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 2.5s ease-out;
+}
+.hero .cta-secondary {
+  background: var(--gold);
+  color: #fff;
+}
+.hero .cta-secondary:hover {
+  background: transparent;
+  color: var(--gold);
+}
+.scroll-arrow {
+  position: absolute;
+  bottom: 50px;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0.3;
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 0.2; } 50% { opacity: 0.5; } }
 
-    /* ── Hero ───────────────────────────────── */
-    .hero {
-      text-align: center;
-      padding: 96px 48px 72px;
-      border-bottom: 1px solid var(--border);
-    }
+/* SECTIONS */
+main { position: relative; z-index: 1; }
+section { padding: 130px 60px; max-width: 1200px; margin: 0 auto; }
+.full-section { max-width: 100%; background: var(--bg2); }
+.section-label {
+  font-size: 9px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: block;
+  font-weight: 500;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 300;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+}
+.section-text {
+  color: var(--text-dim);
+  font-size: 14px;
+  max-width: 520px;
+  line-height: 2.1;
+  margin-bottom: 55px;
+  font-weight: 300;
+}
 
-    .hero-label {
-      display: inline-block;
-      font-size: 0.68rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 28px;
-    }
+/* CTA LINKS */
+.section-cta {
+  display: inline-block;
+  margin-top: 30px;
+  color: var(--text-mid);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.section-cta:hover {
+  color: var(--gold);
+}
+.section-cta::after {
+  content: ' →';
+  margin-left: 8px;
+}
 
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 300;
-      letter-spacing: 0.06em;
-      line-height: 1.05;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
+/* CAROUSEL */
+.carousel-wrapper { position: relative; overflow: hidden; }
+.carousel {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  gap: 20px;
+}
+.carousel-item {
+  min-width: 340px;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.4,0,0.2,1), filter 0.5s ease;
+  loading: lazy;
+  decoding: async;
+}
+.carousel-item:hover img { transform: scale(1.03); filter: brightness(1.05); }
+.carousel-item { box-shadow: 0 4px 30px rgba(0,0,0,0.04); transition: box-shadow 0.5s; }
+.carousel-item:hover { box-shadow: 0 8px 40px rgba(176,141,87,0.1); }
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+.carousel-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.carousel-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-    .hero-line {
-      width: 40px;
-      height: 1px;
-      background: var(--gold);
-      margin: 24px auto;
-    }
+/* COLLECTION CAROUSEL */
+.collection-carousel-wrapper { position: relative; overflow: hidden; }
+.collection-carousel-wrapper.hidden { display: none; }
+.collection-carousel {
+  display: flex;
+  gap: 25px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  padding-bottom: 10px;
+}
+.collection-carousel::-webkit-scrollbar { display: none; }
+.collection-carousel:active { cursor: grabbing; }
+.collection-item {
+  min-width: 200px;
+  background: var(--bg2);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.4s;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+.collection-item:hover { box-shadow: 0 8px 40px rgba(176,141,87,0.1); }
+.collection-item .grid-zap {
+  background: transparent;
+  border: 1px solid rgba(176,141,87,0.3);
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s;
+  margin-top: 8px;
+}
+.collection-item .grid-zap:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+.collection-item img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+  loading: lazy;
+  decoding: async;
+}
+.collection-item:hover img { transform: scale(1.02); }
+.collection-item .info {
+  padding: 15px 20px;
+  border-top: 1px solid var(--border);
+}
+.collection-item .info h4 {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.collection-item .info p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: var(--text);
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+.collection-item .info span {
+.availability-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.badge-available {
+  color: #2dd4a8;
+  border: 1px solid rgba(45,212,168,0.3);
+}
+.badge-consult {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+  font-size: 11px;
+.availability-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.badge-available {
+  color: #2dd4a8;
+  border: 1px solid rgba(45,212,168,0.3);
+}
+.badge-consult {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+  color: var(--text-dim);
+.availability-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.badge-available {
+  color: #2dd4a8;
+  border: 1px solid rgba(45,212,168,0.3);
+}
+.badge-consult {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+  letter-spacing: 1px;
+.availability-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.badge-available {
+  color: #2dd4a8;
+  border: 1px solid rgba(45,212,168,0.3);
+}
+.badge-consult {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+  font-weight: 300;
+.availability-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.badge-available {
+  color: #2dd4a8;
+  border: 1px solid rgba(45,212,168,0.3);
+}
+.badge-consult {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+}
+.availability-badge {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.badge-available {
+  color: #2dd4a8;
+  border: 1px solid rgba(45,212,168,0.3);
+}
+.badge-consult {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+}
+.collection-carousel-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 25px;
+}
 
-    .hero p {
-      color: var(--text-mid);
-      font-size: 0.9rem;
-      max-width: 440px;
-      margin: 0 auto;
-      line-height: 1.8;
-      letter-spacing: 0.02em;
-    }
+/* AVAILABILITY BADGE HOVER EFFECTS */
+.availability-badge:hover {
+  transform: translateY(-1px);
+}
+.availability-badge.badge-available:hover {
+  background: rgba(45,212,168,0.1);
+}
+.availability-badge.badge-consult:hover {
+  background: rgba(176,141,87,0.1);
+}
 
-    /* ── Grid ───────────────────────────────── */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1px;
-      background: var(--border-md);
-      max-width: 1280px;
-      margin: 60px auto;
-      border: 1px solid var(--border-md);
-    }
+/* COLLECTION GRID (expanded) */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.collection-grid.hidden { display: none; }
 
-    /* ── Product Card ───────────────────────── */
-    .card {
-      background: var(--bg);
-      cursor: pointer;
-      transition: background 0.3s;
-      position: relative;
-    }
-    .card:hover { background: var(--bg2); }
+/* TOGGLE TITLE */
+.toggle-title {
+  cursor: pointer;
+  transition: color 0.3s;
+  display: inline-block;
+}
+.toggle-title:hover { color: var(--gold); }
+.toggle-title::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--text-dim);
+  border-bottom: 1.5px solid var(--text-dim);
+  transform: rotate(45deg);
+  margin-left: 12px;
+  transition: transform 0.3s, border-color 0.3s;
+  vertical-align: middle;
+}
+.toggle-title:hover::after { border-color: var(--gold); }
+.toggle-title.expanded::after { transform: rotate(-135deg); }
 
-    .card-image {
-      aspect-ratio: 1;
-      overflow: hidden;
-      position: relative;
-      background: var(--bg2);
-    }
+/* LIGHTBOX */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  cursor: pointer;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+  max-width: 90%;
+  max-height: 70vh;
+  object-fit: contain;
+  box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+}
+.lightbox-info {
+  text-align: center;
+  margin-top: 25px;
+}
+.lightbox-info h4 {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.lightbox-info p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  color: #fff;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.lightbox-info span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1px;
+}
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 24px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: color 0.3s;
+  background: none;
+  border: none;
+}
+.lightbox-close:hover { color: #fff; }
+.collection-item .coming {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 400;
+}
 
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s;
-      filter: saturate(0.85);
-    }
-    .card:hover .card-image img {
-      transform: scale(1.05);
-      filter: saturate(1);
-    }
-    .card-image .img-hover {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-    }
-    .card:hover .card-image .img-hover { opacity: 1; }
-    .card:hover .card-image .img-main  { opacity: 0; }
+/* PILLARS */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+.pillar {
+  padding: 55px 40px;
+  background: var(--bg2);
+  transition: background 0.4s;
+}
+.pillar:hover { background: var(--bg3); }
+.pillar h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+.pillar p { color: var(--text-dim); font-size: 13px; line-height: 2; font-weight: 300; }
 
-    /* Placeholder sin imagen */
-    .placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      background: var(--bg3);
-    }
-    .placeholder-symbol {
-      font-size: 2.5rem;
-      opacity: 0.3;
-    }
-    .placeholder-text {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
+/* ARTISTS */
+.artist-card {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 70px 0;
+  border-bottom: 1px solid var(--border);
+}
+.artist-img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  background: var(--bg);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  transition: box-shadow 0.5s, transform 0.5s;
+  loading: lazy;
+  decoding: async;
+}
+.artist-img:hover { box-shadow: 0 12px 50px rgba(176,141,87,0.12); transform: translateY(-3px); }
+.artist-info h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 300;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+.artist-info .role {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  font-weight: 500;
+}
+.artist-info p { color: var(--text-mid); font-size: 16px; line-height: 2; max-width: 520px; font-weight: 300; }
+.artist-link {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 400;
+}
+.artist-link:hover { color: var(--gold); }
 
-    .card-badge {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 100px;
-    }
-    .badge-available {
-      color: var(--available);
-      border: 1px solid rgba(45,212,168,0.3);
-      background: rgba(45,212,168,0.06);
-    }
-    .badge-soon {
-      color: var(--gold);
-      border: 1px solid rgba(176,141,87,0.3);
-      background: rgba(176,141,87,0.06);
-    }
+/* CREATORS PORTRAITS */
+.creators-portraits {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+.creator-portrait {
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.creator-portrait:hover { transform: translateY(-5px); }
+.creator-portrait img {
+  width: 200px;
+  height: 280px;
+  object-fit: cover;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  transition: box-shadow 0.5s, transform 0.5s;
+  margin-bottom: 15px;
+}
+.creator-portrait:hover img { box-shadow: 0 12px 50px rgba(176,141,87,0.12); }
+.creator-portrait h3, .creator-portrait .role { display: none; }
+.creators-view-all {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+.creators-view-all:hover { opacity: 0.7; }
+.creator-portrait.active img { box-shadow: 0 0 0 2px var(--gold); }
 
-    .card-body {
-      padding: 28px;
-      border-top: 1px solid var(--border);
-    }
+/* CREATOR EXPANDED */
+.creator-expanded {
+  border-top: 1px solid var(--border);
+  padding: 50px 0;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.creator-expanded-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+.creator-expanded-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.creator-expanded-header h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.creator-expanded-motto {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold);
+}
+.creator-expanded-bio {
+  color: var(--text-mid);
+  font-size: 14px;
+  line-height: 1.9;
+  font-weight: 300;
+  margin-top: 8px;
+  max-width: 500px;
+}
+.creator-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+}
+.creator-gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.creator-gallery img:hover { transform: scale(1.02); box-shadow: 0 6px 25px rgba(0,0,0,0.2); }
 
-    .card-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
+/* NEWSLETTER */
+.newsletter {
+  background: var(--bg2);
+  text-align: center;
+}
+.newsletter-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.newsletter h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+}
+.newsletter-benefits {
+  list-style: none;
+  margin-bottom: 35px;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.newsletter-benefits li {
+  font-size: 13px;
+  color: var(--text-mid);
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.newsletter-benefits li:hover {
+  border-color: var(--gold);
+}
+.newsletter-benefits li::before {
+  content: '⚡';
+  margin-right: 8px;
+}
+.newsletter-form {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.newsletter-email {
+  padding: 15px 20px;
+  border: 2px solid var(--gold);
+  background: transparent;
+  font-size: 14px;
+  min-width: 300px;
+  flex: 1;
+  max-width: 400px;
+}
+.newsletter-email:focus {
+  outline: none;
+  border-color: var(--text);
+}
+.newsletter-submit {
+  padding: 15px 30px;
+  border: 2px solid var(--gold);
+  background: var(--gold);
+  color: white;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.newsletter-submit:hover {
+  background: transparent;
+  color: var(--gold);
+}
 
-    .card-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 400;
-      letter-spacing: 0.03em;
-      line-height: 1.2;
-      margin-bottom: 10px;
-      color: var(--text);
-    }
+/* CONTACT */
+.contact { text-align: center; }
+.contact-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+.contact-link {
+  padding: 14px 32px;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text-dim);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  font-weight: 400;
+}
+.contact-link:hover { border-color: var(--gold); color: var(--gold); }
+.lightning-badge {
+  display: inline-block;
+  margin-top: 35px;
+  padding: 10px 24px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.3);
+  font-weight: 400;
+}
 
-    .card-desc {
-      font-size: 0.8rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      margin-bottom: 22px;
-      letter-spacing: 0.01em;
-    }
+/* FOOTER */
+footer {
+  padding: 80px 60px 40px;
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-col { display: flex; flex-direction: column; gap: 8px; }
+.footer-col a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+  font-weight: 300;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-title {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.footer-text { color: var(--text-dim); font-size: 12px; font-weight: 300; }
+.footer-lightning { color: var(--gold); font-size: 11px; margin-top: 5px; font-weight: 400; }
+.footer-col .footer-lightning { letter-spacing: 0; }
+.footer-bottom {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border);
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 400;
+}
 
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-    }
+/* BLOG */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+.blog-card {
+  border: 1px solid var(--border);
+  padding: 30px;
+  background: var(--bg);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.blog-card:hover {
+  box-shadow: 0 8px 40px rgba(176,141,87,0.1);
+  transform: translateY(-2px);
+}
+.blog-date {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.blog-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.blog-excerpt {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.blog-link {
+  color: var(--text-mid);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  font-weight: 400;
+}
+.blog-link:hover { color: var(--gold); }
 
-    .price-sats {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: 0.02em;
-    }
-    .price-sats em {
-      font-style: normal;
-      color: var(--gold);
-      font-size: 0.75rem;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-left: 4px;
-    }
+/* EVENTS */
+.events-section {
+  margin-bottom: 50px;
+}
+.events-section:last-child {
+  margin-bottom: 0;
+}
+.events-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+.events-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.event-card {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  border: 1px solid var(--border);
+  padding: 30px;
+  background: var(--bg);
+  transition: box-shadow 0.3s;
+}
+.event-card:hover {
+  box-shadow: 0 8px 40px rgba(176,141,87,0.1);
+}
+.event-date {
+  background: var(--gold);
+  color: white;
+  text-align: center;
+  min-width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+.event-day {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}
+.event-month {
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.event-year {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+  opacity: 0.8;
+}
+.event-info h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.event-location {
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.event-desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.6;
+}
 
-    .btn-buy {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 20px;
-      background: transparent;
-      color: var(--gold);
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      border: 1px solid var(--gold);
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .btn-buy:hover {
-      background: var(--gold);
-      color: #fff;
-    }
-    .btn-buy:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
+/* PAST EVENTS */
+.past-event {
+  opacity: 0.8;
+  background: var(--bg2);
+}
+.past-event:hover {
+  opacity: 1;
+  box-shadow: 0 8px 40px rgba(176,141,87,0.08);
+}
+.past-date {
+  background: var(--text-mid);
+  height: 70px;
+  min-width: 70px;
+}
+.past-event-badge {
+  display: inline-block;
+  background: var(--text-dim);
+  color: white;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
 
-    /* ── Modal ──────────────────────────────── */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(26,26,26,0.6);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-    .overlay.open { opacity: 1; pointer-events: all; }
+/* MOBILE */
+@media (max-width: 768px) {
+  header { padding: 18px 24px; }
+  header ul { display: none; }
+  .hamburger { display: flex; }
+  .logo { font-size: 18px; letter-spacing: 4px; }
+  
+  /* Hero responsive */
+  .hero { padding: 0 20px; }
+  .hero h1 { font-size: 48px; letter-spacing: 8px; }
+  .hero .hero-subtitle { font-size: 22px; }
+  .hero .hero-description { font-size: 14px; }
+  
+  /* Sections responsive */
+  section { padding: 80px 20px; }
+  .section-title { font-size: 28px; }
+  .section-text { font-size: 13px; margin-bottom: 40px; }
+  
+  /* Newsletter responsive */
+  .newsletter-form { flex-direction: column; align-items: center; }
+  .newsletter-email { min-width: 250px; }
+  
+  /* Pillars single column */
+  .pillars { grid-template-columns: 1fr; }
+  .pillar { padding: 40px 30px; }
+  
+  /* Collection responsive */
+  .collection-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+  .collection-item { min-width: auto; }
+  .collection-item img { height: 220px; }
+  
+  /* Carousel touch-swipeable */
+  .carousel-item { min-width: 260px; }
+  .collection-carousel {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  
+  /* Artist card single column, centered */
+  .artist-card { 
+    grid-template-columns: 1fr; 
+    gap: 30px; 
+    text-align: center;
+  }
+  .artist-img { 
+    width: 200px; 
+    height: 200px; 
+    margin: 0 auto;
+  }
+  .creators-portraits { gap: 25px; }
+  .creator-portrait img { width: 140px; height: 200px; }
+  .creator-portrait h3 { font-size: 20px; }
+  .creator-expanded-header { flex-direction: column; text-align: center; gap: 15px; }
+  .creator-expanded-avatar { width: 90px; height: 90px; }
+  .creator-gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  
+  /* Blog and Events responsive */
+  .blog-grid { grid-template-columns: 1fr; gap: 20px; }
+  .blog-card, .event-card { padding: 25px; }
+  .events-subtitle { font-size: 22px; margin-bottom: 25px; }
+  .event-card { 
+    flex-direction: column; 
+    gap: 20px; 
+    text-align: center;
+  }
+  .event-date, .past-date { align-self: center; }
+  .events-section { margin-bottom: 40px; }
+  
+  /* Footer responsive */
+  .footer-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px; 
+  }
+  .footer-grid .footer-col:first-child {
+    grid-column: 1 / -1;
+  }
+}
 
-    .modal {
-      background: var(--bg);
-      border: 1px solid var(--border-md);
-      width: 100%;
-      max-width: 440px;
-      overflow: hidden;
-      transform: translateY(16px);
-      transition: transform 0.3s;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.15);
-    }
-    .overlay.open .modal { transform: translateY(0); }
+@media (max-width: 390px) {
+  .hero h1 { font-size: 36px; letter-spacing: 6px; }
+  .hero .hero-subtitle { font-size: 18px; }
+  section { padding: 60px 16px; }
+  .collection-item { min-width: auto; }
+  .collection-item img { height: 180px; }
+  .artist-img { width: 160px; height: 160px; }
+  
+  /* Footer single column on very small screens */
+  .footer-grid { 
+    grid-template-columns: 1fr; 
+    gap: 25px; 
+  }
+  .footer-grid .footer-col:first-child {
+    grid-column: auto;
+  }
+}
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 28px;
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-header h3 {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-mid);
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-dim);
-      font-size: 1.3rem;
-      cursor: pointer;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-    .modal-close:hover { color: var(--text); }
 
-    .modal-body { padding: 28px; }
+/* OBRA TAGS */
+.obra-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: center;
+}
+.obra-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+}
+.tag-artist {
+  color: var(--gold);
+  border: 1px solid rgba(176,141,87,0.25);
+}
+.tag-type {
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+.tag-price {
+  color: #f7931a;
+  border: 1px solid rgba(247,147,26,0.25);
+}
 
-    /* Step confirm */
-    .product-summary {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      padding: 18px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .summary-icon {
-      width: 52px;
-      height: 52px;
-      background: var(--bg3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-    .summary-info h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      font-weight: 500;
-      margin-bottom: 3px;
-    }
-    .summary-info p { font-size: 0.75rem; color: var(--text-dim); }
-    .summary-info .summary-price {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--gold);
-      margin-top: 6px;
-    }
+/* ZAP SYSTEM */
+.zap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(176,141,87,0.3);
+  background: transparent;
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+.zap-btn:hover {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+}
+.zap-btn .zap-icon { font-size: 14px; }
+.zap-btn .zap-count {
+  font-size: 10px;
+  opacity: 0.7;
+}
+.zap-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+.zap-modal-overlay.active { display: flex; }
+.zap-modal {
+  background: var(--bg);
+  max-width: 420px;
+  width: 90%;
+  padding: 40px;
+  position: relative;
+  text-align: center;
+}
+.zap-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 20px;
+  cursor: pointer;
+}
+.zap-modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.zap-modal .zap-target-name {
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+}
+.zap-amounts {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.zap-amount-btn {
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.zap-amount-btn:hover, .zap-amount-btn.selected {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(176,141,87,0.05);
+}
+.zap-custom-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 20px;
+  outline: none;
+}
+.zap-custom-input:focus { border-color: var(--gold); }
+.zap-qr-container {
+  margin: 20px auto;
+  display: none;
+}
+.zap-qr-container canvas { max-width: 200px !important; height: auto !important; }
+.zap-qr-container.active { display: block; }
+.zap-pay-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+.zap-pay-btn:hover { opacity: 0.85; }
+.zap-invoice-text {
+  margin-top: 15px;
+  font-size: 11px;
+  color: var(--text-dim);
+  word-break: break-all;
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid var(--border);
+  display: none;
+}
+.zap-invoice-text.active { display: block; }
+.zap-invoice-text:hover { border-color: var(--gold); }
+.zap-success {
+  display: none;
+  text-align: center;
+  padding: 20px;
+}
+.zap-success.active { display: block; }
+.zap-success .check { font-size: 48px; margin-bottom: 15px; }
 
-    .confirm-note {
-      font-size: 0.78rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      margin-bottom: 22px;
-      padding: 12px 14px;
-      background: rgba(176,141,87,0.04);
-      border-left: 2px solid var(--gold);
-      letter-spacing: 0.01em;
-    }
-
-    .btn-primary {
-      width: 100%;
-      padding: 14px;
-      background: var(--text);
-      color: var(--bg);
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .btn-primary:hover { background: var(--gold); }
-    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    .btn-secondary {
-      width: 100%;
-      padding: 12px;
-      background: transparent;
-      color: var(--text-mid);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: 1px solid var(--border-md);
-      cursor: pointer;
-      margin-top: 10px;
-      transition: all 0.3s;
-    }
-    .btn-secondary:hover { color: var(--text); border-color: var(--text); }
-
-    /* Step invoice */
-    .loading-state {
-      text-align: center;
-      padding: 32px 0;
-    }
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 2px solid var(--border-md);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-      margin: 0 auto 16px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .qr-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-
-    #qr-img {
-      border: 4px solid var(--gold);
-      padding: 10px;
-      background: white;
-      width: 200px;
-      height: 200px;
-    }
-
-    .invoice-string {
-      width: 100%;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 10px 12px;
-      color: var(--text-dim);
-      font-family: monospace;
-      font-size: 0.62rem;
-      word-break: break-all;
-      line-height: 1.5;
-      max-height: 52px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .btn-copy {
-      width: 100%;
-      padding: 10px;
-      background: transparent;
-      border: 1px solid var(--border-md);
-      color: var(--text-mid);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .btn-copy:hover { border-color: var(--gold); color: var(--gold); }
-    .btn-copy.copied { border-color: var(--available); color: var(--available); }
-
-    .waiting-label {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      letter-spacing: 0.08em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .pulse-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--gold);
-      border-radius: 50%;
-      animation: pulse 1.6s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50%      { opacity:0.3; transform:scale(0.6); }
-    }
-
-    .btn-paid {
-      width: 100%;
-      padding: 11px;
-      background: transparent;
-      color: var(--available);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: 1px solid rgba(45,212,168,0.3);
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 4px;
-    }
-    .btn-paid:hover { background: rgba(45,212,168,0.06); }
-
-    /* Step success */
-    #step-success {
-      text-align: center;
-      padding: 12px 0;
-    }
-    .success-symbol {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.5rem;
-      color: var(--gold);
-      margin-bottom: 12px;
-      animation: fadeUp 0.5s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(10px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    #step-success h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 400;
-      margin-bottom: 8px;
-    }
-    #step-success p {
-      color: var(--text-mid);
-      font-size: 0.82rem;
-      line-height: 1.7;
-      margin-bottom: 22px;
-    }
-    .success-detail {
-      font-size: 0.76rem;
-      color: var(--text-mid);
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 14px;
-      margin-bottom: 22px;
-      text-align: left;
-      line-height: 1.8;
-    }
-
-    /* Steps */
-    .step { display: none; }
-    .step.active { display: block; }
-
-    /* ── Footer ─────────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 48px 40px;
-      border-top: 1px solid var(--border);
-      color: var(--text-dim);
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    footer a { color: var(--gold); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* ── Responsive ─────────────────────────── */
-    @media (max-width: 640px) {
-      nav { padding: 16px 20px; }
-      .hero { padding: 60px 20px 48px; }
-      .shop-grid { margin: 40px 0; }
-    }
-  </style>
+</style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GB0GQ5P9NE"></script>
 <script>
@@ -602,558 +1432,1068 @@
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <a class="nav-logo" href="https://hash21.studio">Hash<span>21</span></a>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <a class="nav-back" href="https://hash21.studio" data-i18n="nav_back">← Galería</a>
-      <div style="display:flex;gap:4px;">
-        <button class="lang-btn" onclick="setLang('es')" style="background:none;border:1px solid var(--border-md);color:var(--text-mid);padding:4px 8px;border-radius:2px;cursor:pointer;font-size:0.75rem;">ES</button>
-        <button class="lang-btn" onclick="setLang('en')" style="background:none;border:1px solid var(--border-md);color:var(--text-mid);padding:4px 8px;border-radius:2px;cursor:pointer;font-size:0.75rem;">EN</button>
+<header>
+  <div class="logo">HASH<span>21</span></div>
+  <ul>
+    <li><a href="#collection" data-i18n="nav_collection">Colección</a></li>
+    <li><a href="#philosophy" data-i18n="nav_philosophy">Filosofía</a></li>
+    <li><a href="#artists" data-i18n="nav_artists">Creadores</a></li>
+    <li class="nav-hidden" style="display:none;"><a href="#collaborations" data-i18n="nav_collabs">Proyectos</a></li>
+    <li class="nav-hidden" style="display:none;"><a href="#blog" data-i18n="nav_blog">Blog</a></li>
+    <li class="nav-hidden" style="display:none;"><a href="#events" data-i18n="nav_events">Eventos</a></li>
+    <li><a href="/verify/" data-i18n="nav_verify">Verificar</a></li>
+    <li><a href="/blocklab">Block Lab</a></li>
+    <li><a href="/shop">Shop</a></li>
+    <li class="lang-switch"><button class="lang-btn active" data-lang="es" onclick="setLang('es')">ES</button><button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+<div class="nav-overlay" id="navOverlay">
+  <ul>
+    <li><a href="#collection" data-i18n="nav_collection" onclick="closeMenu()">Colección</a></li>
+    <li><a href="#philosophy" data-i18n="nav_philosophy" onclick="closeMenu()">Filosofía</a></li>
+    <li><a href="#artists" data-i18n="nav_artists" onclick="closeMenu()">Creadores</a></li>
+    <li class="nav-hidden" style="display:none;"><a href="#collaborations" data-i18n="nav_collabs" onclick="closeMenu()">Proyectos</a></li>
+    <li class="nav-hidden" style="display:none;"><a href="#blog" data-i18n="nav_blog" onclick="closeMenu()">Blog</a></li>
+    <li class="nav-hidden" style="display:none;"><a href="#events" data-i18n="nav_events" onclick="closeMenu()">Eventos</a></li>
+    <li><a href="/verify/" data-i18n="nav_verify" onclick="closeMenu()">Verificar</a></li>
+    <li><a href="/blocklab" onclick="closeMenu()">Block Lab</a></li>
+    <li><a href="/shop" onclick="closeMenu()">Shop</a></li>
+    <li class="lang-switch">
+      <button class="lang-btn active" data-lang="es" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </li>
+  </ul>
+</div>
+
+<canvas id="dust" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.4;"></canvas>
+<section class="hero" style="position:relative;z-index:1;">
+  <h1>HASH<span>21</span></h1>
+  <div class="line"></div>
+  <p class="hero-subtitle" data-i18n="hero_subtitle">Galería de arte inspirada en Bitcoin</p>
+  <p class="hero-description" data-i18n="hero_description">Permanencia para la obra. Soberanía para el artista.</p>
+  <div class="hero-ctas">
+    <a href="#collection" class="cta-button" data-i18n="hero_cta">Explorar Colección</a>
+    <a href="/certification" class="cta-button cta-secondary" data-i18n="hero_cta2">Certificar Mi Obra</a>
+  </div>
+  <div class="scroll-arrow" data-i18n="hero_scroll">↓ Explorar</div>
+</section>
+
+<main>
+<section id="collection">
+  <span class="section-label" data-i18n="collection_label">Colección</span>
+  <h2 class="section-title toggle-title" data-i18n="collection_title" onclick="toggleCollection()">Explorar Colección</h2>
+  <p class="section-text" data-i18n="collection_text">Cada obra registra un instante de conciencia irrepetible, una prueba de existencia. Así como Bitcoin inscribe valor en el tiempo, estas piezas inscriben intención, energía y significado.<br><br>Pinturas y objetos de diseño inspirados en la filosofía de Bitcoin, certificados on-chain como acto de soberanía cultural. La certificación garantiza autenticidad, trazabilidad y permanencia inmutable. La obra habita el mundo físico; su verdad queda anclada en la red.</p>
+
+  <!-- Carousel (default) -->
+  <div class="collection-carousel-wrapper" id="collectionCarousel">
+    <div class="collection-carousel" id="collCarousel">
+            <div class="collection-item" onclick="openLightbox('img/roxy-paspartuz1.jpg','Block 0 — #005','Paspartuz 1','Técnica mixta','consult')">
+        <img src="img/roxy-paspartuz1.jpg" alt="Paspartuz 1 - Roxy" decoding="async">
+        <div class="info"><h4>Block 0 — #005</h4><p>Paspartuz 1</p><span>Técnica mixta</span></div>
+      </div>
+      <div class="collection-item" onclick="openLightbox('img/roxy-paspartuz2.jpg','Block 0 — #006','Paspartuz 2','Técnica mixta','consult')">
+        <img src="img/roxy-paspartuz2.jpg" alt="Paspartuz 2 - Roxy" decoding="async">
+        <div class="info"><h4>Block 0 — #006</h4><p>Paspartuz 2</p><span>Técnica mixta</span></div>
+      </div>
+      <div class="collection-item" onclick="openLightbox('img/obra4.jpg','Block 0 — #001','The Rabbit','Acrílico y texturas sobre lienzo','consult')">
+        <img src="img/obra4.jpg" alt="The Rabbit - Arte abstracto inspirado en Bitcoin" decoding="async">
+        <div class="info"><h4 data-i18n="obra1_code">Block 0 — #001</h4><p data-i18n="obra1_name">The Rabbit</p><span data-i18n="obra1_tech">Acrílico y texturas sobre lienzo</span></div>
+      </div>
+      <div class="collection-item" onclick="openLightbox('img/obra3.jpg','Block 0 — #002','The Hole','Acrílico y texturas sobre lienzo','available')">
+        <img src="img/obra3.jpg" alt="The Hole - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+        <div class="info"><h4 data-i18n="obra2_code">Block 0 — #002</h4><p data-i18n="obra2_name">The Hole</p><span data-i18n="obra2_tech">Acrílico y texturas sobre lienzo</span></div>
+      </div>
+      <div class="collection-item" onclick="openLightbox('img/obra1.jpg','Block 0 — #003','Libertad','Acrílico y texturas sobre lienzo','consult')">
+        <img src="img/obra1.jpg" alt="Libertad - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+        <div class="info"><h4 data-i18n="obra3_code">Block 0 — #003</h4><p data-i18n="obra3_name">Libertad</p><span data-i18n="obra3_tech">Acrílico y texturas sobre lienzo</span></div>
+      </div>
+      <div class="collection-item" onclick="openLightbox('img/obra2.jpg','Block 0 — #004','Horizonte Temporal','Acrílico y texturas sobre lienzo','available')">
+        <img src="img/obra2.jpg" alt="Horizonte Temporal - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+        <div class="info"><h4 data-i18n="obra4_code">Block 0 — #004</h4><p data-i18n="obra4_name">Horizonte Temporal</p><span data-i18n="obra4_tech">Acrílico y texturas sobre lienzo</span></div>
+      </div>
+      <div class="collection-item" onclick="window.location.href='/shop/'" style="cursor:pointer;">
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:420px;padding:40px;text-align:center;">
+          <span style="font-size:32px;margin-bottom:15px;">✦</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);margin-bottom:10px;" data-i18n="shop_explore_title">Objetos de diseño</p>
+          <span style="font-size:12px;color:var(--text-dim);line-height:1.6;max-width:260px;" data-i18n="shop_explore_desc">Explorá objetos únicos creados por los artistas de Hash21</span>
+          <a href="/shop/" style="margin-top:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(176,141,87,0.3);padding:8px 20px;transition:all 0.3s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'" data-i18n="shop_explore_cta">Ver tienda →</a>
+        </div>
       </div>
     </div>
-  </nav>
+    <div class="collection-carousel-nav">
+      <button class="carousel-btn" onclick="moveCollCarousel(-1)">←</button>
+      <button class="carousel-btn" onclick="moveCollCarousel(1)">→</button>
+    </div>
+  </div>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-label" data-i18n="hero_label">⚡ Pagá con Lightning Network</div>
-    <h1 data-i18n="hero_title_html">Objetos de<br>diseño</h1>
-    <div class="hero-line"></div>
-    <p data-i18n="hero_sub">Piezas únicas inspiradas en Bitcoin.</p>
-  </section>
+  <!-- Grid (expanded on click) -->
+  <div class="collection-grid hidden" id="collectionGrid">
+    <div class="collection-item" onclick="openLightbox('img/roxy-paspartuz1.jpg','Block 0 — #005','Paspartuz 1','Técnica mixta','consult')">
+      <img src="img/roxy-paspartuz1.jpg" alt="Paspartuz 1 - Roxy" loading="lazy" decoding="async">
+      <div class="info"><h4>Block 0 — #005</h4><p>Paspartuz 1</p><span>Técnica mixta</span></div>
+    </div>
+    <div class="collection-item" onclick="openLightbox('img/roxy-paspartuz2.jpg','Block 0 — #006','Paspartuz 2','Técnica mixta','consult')">
+      <img src="img/roxy-paspartuz2.jpg" alt="Paspartuz 2 - Roxy" loading="lazy" decoding="async">
+      <div class="info"><h4>Block 0 — #006</h4><p>Paspartuz 2</p><span>Técnica mixta</span></div>
+    </div>
+    <div class="collection-item" onclick="openLightbox('img/obra4.jpg','Block 0 — #001','The Rabbit','Acrílico y texturas sobre lienzo','consult')">
+      <img src="img/obra4.jpg" alt="The Rabbit - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+      <div class="info"><h4 data-i18n="obra1_code">Block 0 — #001</h4><p data-i18n="obra1_name">The Rabbit</p><span data-i18n="obra1_tech">Acrílico y texturas sobre lienzo</span></div>
+    </div>
+    <div class="collection-item" onclick="openLightbox('img/obra3.jpg','Block 0 — #002','The Hole','Acrílico y texturas sobre lienzo','available')">
+      <img src="img/obra3.jpg" alt="The Hole - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+      <div class="info"><h4 data-i18n="obra2_code">Block 0 — #002</h4><p data-i18n="obra2_name">The Hole</p><span data-i18n="obra2_tech">Acrílico y texturas sobre lienzo</span></div>
+    </div>
+    <div class="collection-item" onclick="openLightbox('img/obra1.jpg','Block 0 — #003','Libertad','Acrílico y texturas sobre lienzo','consult')">
+      <img src="img/obra1.jpg" alt="Libertad - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+      <div class="info"><h4 data-i18n="obra3_code">Block 0 — #003</h4><p data-i18n="obra3_name">Libertad</p><span data-i18n="obra3_tech">Acrílico y texturas sobre lienzo</span></div>
+    </div>
+    <div class="collection-item" onclick="openLightbox('img/obra2.jpg','Block 0 — #004','Horizonte Temporal','Acrílico y texturas sobre lienzo','available')">
+      <img src="img/obra2.jpg" alt="Horizonte Temporal - Arte abstracto inspirado en Bitcoin" loading="lazy" decoding="async">
+      <div class="info"><h4 data-i18n="obra4_code">Block 0 — #004</h4><p data-i18n="obra4_name">Horizonte Temporal</p><span data-i18n="obra4_tech">Acrílico y texturas sobre lienzo</span></div>
+    </div>
+  </div>
+  <a href="#artists" class="section-cta" data-i18n="collection_cta">Conoce a los Creadores</a>
+</section>
 
-  <!-- Grid -->
-  <main class="shop-grid" id="shop-grid"></main>
+<!-- Hard Art Objects merged into Explorar Colección -->
 
-  <!-- Footer -->
-  <footer>
-    <p>
-      <a href="https://hash21.studio">Hash21 Studio</a>
-      &ensp;·&ensp;
-      Lightning Network ⚡
-      &ensp;·&ensp;
-      <a href="https://hackaton.lacrypta.ar">Hackathon 2026</a>
-    </p>
-  </footer>
-
-  <!-- Modal -->
-  <div class="overlay" id="overlay" onclick="closeOnOverlay(event)">
-    <div class="modal" role="dialog" aria-modal="true">
-
-      <div class="modal-header">
-        <h3 id="modal-title">Checkout</h3>
-        <button class="modal-close" onclick="closeModal()">×</button>
+<div class="full-section" id="philosophy">
+  <section>
+    <span class="section-label" data-i18n="philosophy_label">Filosofía</span>
+    <h2 class="section-title" data-i18n="philosophy_title">¿Por qué Hash21?</h2>
+    <p class="section-text" data-i18n="philosophy_text">Donde el arte se encuentra con la soberanía individual.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <h3 data-i18n="pillar1_title">Proof of Work</h3>
+        <p data-i18n="pillar1_text">Cada obra es trabajo real. Acrílico, textura, capas. No hay ctrl+Z. Cada trazo es irreversible — como cada bloque en la cadena.</p>
       </div>
+      <div class="pillar">
+        <h3 data-i18n="pillar2_title">Soberanía</h3>
+        <p data-i18n="pillar2_text">Arte que no pide permiso. Sin intermediarios que dicten qué crear ni cuánto vale. La obra habla por sí misma.</p>
+      </div>
+      <div class="pillar">
+        <h3 data-i18n="pillar3_title">21 Millones</h3>
+        <p data-i18n="pillar3_text">En un mundo de infinita reproducción, lo escaso tiene valor. Cada pieza es única. Finito por diseño — como Bitcoin.</p>
+      </div>
+      <div class="pillar">
+        <h3 data-i18n="pillar4_title">Legado</h3>
+        <p data-i18n="pillar4_text">Crear es dejar rastro. Certificar es asumir responsabilidad por lo creado. Registramos únicamente la huella digital de cada obra, de forma eficiente y respetuosa con la red. Porque la permanencia no necesita ruido. Solo verdad verificable.</p>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-dim);margin-top:30px;letter-spacing:0.5px;font-weight:300;">
+      <a href="/certification" style="color:var(--text-dim);border-bottom:1px solid rgba(138,132,120,0.3);transition:color 0.3s;text-decoration:none;" onmouseover="this.style.color='#b08d57'" onmouseout="this.style.color=''">Ver detalles técnicos y legales →</a>
+    </p>
+    <a href="#collection" class="section-cta" data-i18n="philosophy_cta">Explorar Colección</a>
+  </section>
+</div>
 
-      <div class="modal-body">
+<section id="artists">
+  <span class="section-label" data-i18n="artists_label">Artistas</span>
+  <h2 class="section-title" data-i18n="artists_title">Creadores</h2>
+  <a href="javascript:void(0)" onclick="toggleCreatorsPanel()" class="creators-view-all" id="creatorsViewAll" data-i18n="creators_view_all">Ver todos →</a>
+  <p class="section-text" data-i18n="artists_text" style="max-width:700px;">Hash21 es un refugio para artistas que crean desde la libertad. Creemos que el arte, como Bitcoin, es un acto de soberanía: una decisión consciente de expresar la verdad interior sin pedir permiso, a través del color, la textura, la materia y el tiempo invertido en cada obra. Cada pieza nace del trabajo real y refleja la autenticidad del alma que la crea.<br><br>Cada creador es guardián de su energía, responsable de su visión y dueño de su proceso. Aquí, el amor por la creación se encuentra con la libertad de existir. Aquí, el valor no se impone: se construye.</p>
 
-        <!-- Step 1: Confirmar -->
-        <div class="step active" id="step-confirm">
-          <div class="product-summary">
-            <div class="summary-icon" id="summary-icon">🥈</div>
-            <div class="summary-info">
-              <h4 id="summary-name"></h4>
-              <p id="summary-label"></p>
-              <div class="summary-price" id="summary-price"></div>
-            </div>
-          </div>
-          <p class="confirm-note" data-i18n="confirm_note">
-            Se generará un invoice Lightning por el monto exacto. Pagalo desde cualquier wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.
-          </p>
-          <button class="btn-primary" onclick="generateInvoice()" data-i18n="btn_generate">
-            ⚡ &nbsp;Generar Invoice
-          </button>
-          <button class="btn-secondary" onclick="closeModal()" data-i18n="btn_cancel">Cancelar</button>
+  <!-- Original artist cards -->
+  <div class="artist-card">
+    <img src="img/avatar.jpg" alt="Lai⚡️ - Artista Bitcoin" class="artist-img" loading="lazy" decoding="async">
+    <div class="artist-info">
+      <h3>Lai⚡️</h3>
+      <div class="role" data-i18n="artist1_role">Fundadora · Artista</div>
+      <p class="artist-motto" data-i18n="artist1_motto" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--gold);margin-bottom:6px;">Sovereign Art for Sovereign Minds</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-dim);margin-bottom:12px;" data-i18n="hero_pow">Proof of Work · Proof of Soul</p>
+      <p data-i18n="artist1_bio">Arte intuitivo que explora emoción y transformación. Acrílicos, texturas y capas que se construyen como las decisiones que nos forman. Buenos Aires, Argentina.</p>
+      <div style="display:flex;gap:18px;align-items:center;margin-top:15px;">
+        <a href="https://t.me/abstract_lai" target="_blank" title="Telegram" style="font-size:22px;text-decoration:none;transition:opacity 0.3s;opacity:0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">✈️</a>
+        <a href="https://primal.net/p/nprofile1qqs20z3erzyvdfazuy226ekupernh86kzu6v0uyce92jktjmhpqdymq3ha49c" target="_blank" title="Nostr" style="font-size:22px;text-decoration:none;transition:opacity 0.3s;opacity:0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">🟣</a>
+        <a href="https://www.instagram.com/abstract.lai" target="_blank" title="Instagram" style="font-size:22px;text-decoration:none;transition:opacity 0.3s;opacity:0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">📸</a>
+        <a href="javascript:void(0)" onclick="toggleLightning()" title="Lightning Address" style="font-size:22px;text-decoration:none;transition:opacity 0.3s;opacity:0.6;cursor:pointer;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">⚡</a>
+      </div>
+      <div id="lightning-address" style="display:none;margin-top:10px;padding:10px 15px;border:1px solid rgba(176,141,87,0.3);font-size:13px;color:var(--gold);letter-spacing:1px;">
+        crustycoil11@walletofsatoshi.com
+      </div>
+      
+      <a href="javascript:void(0)" onclick="toggleProjects()" class="artist-link" id="projects-toggle" style="margin-top:10px;display:inline-block;color:var(--gold);" data-i18n="artist1_projects_label">Proyectos & Experiencia →</a>
+      
+      <div id="artist-projects" style="display:none;margin-top:25px;padding-top:25px;border-top:1px solid var(--border);">
+        <div style="margin-bottom:20px;">
+          <h5 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px;" data-i18n="collab_title">Colaboración con 21 LAT</h5>
+          <p style="color:var(--text-dim);font-size:13px;line-height:1.9;font-weight:300;" data-i18n="collab_text">Diseños exclusivos creados para el proyecto 21 LAT. Arte abstracto aplicado a tarjetas contactless — cada diseño es único e irrepetible.</p>
         </div>
-
-        <!-- Step 2: Pagar -->
-        <div class="step" id="step-invoice">
-          <div class="loading-state" id="loading-state">
-            <div class="spinner"></div>
-            <p style="color:var(--text-dim);font-size:0.8rem;letter-spacing:0.05em;">Generando invoice...</p>
+        
+        <div class="carousel-wrapper" style="margin-bottom:25px;">
+          <div class="carousel" id="carousel">
+            <div class="carousel-item"><img src="img/21lat-logo.jpg" alt="Logo 21 LAT" loading="lazy" decoding="async" style="object-fit:contain;background:#fff;"></div>
+            <div class="carousel-item"><img src="img/card-first.jpg" alt="Tarjeta 21 LAT" loading="lazy" decoding="async"></div>
+            <div class="carousel-item"><img src="img/card6.jpg" alt="Tarjeta 21 LAT" loading="lazy" decoding="async"></div>
+            <div class="carousel-item"><img src="img/card7.jpg" alt="Tarjeta 21 LAT" loading="lazy" decoding="async"></div>
+            <div class="carousel-item"><img src="img/card8.jpg" alt="Tarjeta 21 LAT" loading="lazy" decoding="async"></div>
+            <div class="carousel-item"><img src="img/card10.jpg" alt="Tarjeta 21 LAT" loading="lazy" decoding="async"></div>
           </div>
-
-          <div class="qr-wrapper" id="qr-wrapper" style="display:none">
-            <img id="qr-img" src="" alt="QR de pago Lightning" width="200" height="200">
-            <div class="invoice-string" id="invoice-string" onclick="copyInvoice()" title="Click para copiar"></div>
-            <button class="btn-copy" id="copy-btn" onclick="copyInvoice()">Copiar invoice</button>
-            <div class="waiting-label">
-              <span class="pulse-dot"></span>
-              <span data-i18n="waiting_scan">Escaneá el QR y pagá desde tu wallet</span>
-            </div>
-            <div style="margin-top:20px;padding:16px;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border-md);">
-              <p id="post-pay-text" style="font-size:0.85rem;color:var(--text);margin-bottom:14px;line-height:1.5;" data-i18n="post_pay_text_html">
-                Una vez realizado el pago, presioná <strong>"Ya pagué"</strong> para coordinar la entrega de tu pieza.
-              </p>
-              <button class="btn-primary" onclick="confirmPayment()" style="background:var(--gold);font-size:1rem;padding:14px 24px;width:100%;" data-i18n="btn_paid">
-                ✓ &nbsp;Ya pagué
-              </button>
-            </div>
+          <div class="carousel-nav">
+            <button class="carousel-btn" onclick="moveCarousel(-1)">←</button>
+            <button class="carousel-btn" onclick="moveCarousel(1)">→</button>
           </div>
         </div>
-
-        <!-- Step 3: Éxito -->
-        <div class="step" id="step-success">
-          <div class="success-symbol">✦</div>
-          <h3 data-i18n="success_title">¡Pago confirmado!</h3>
-          <p data-i18n="success_desc">Tu pedido está registrado. Gracias por apoyar el arte Bitcoin.</p>
-          <div class="success-detail" id="success-detail">
-            🔖 <strong data-i18n="order_number">Número de pedido:</strong> <span id="order-id">—</span>
-          </div>
-          <p style="margin:20px 0 10px;font-size:0.85rem;color:var(--text-mid);" data-i18n="shipping_question">¿Cómo querés coordinar el envío?</p>
-          <button class="btn-primary" onclick="showStep('shipping-nokyc')" style="background:var(--gold);margin-bottom:10px;" data-i18n="btn_nokyc">
-            🔒 &nbsp;Sin KYC — Coordinar por Telegram
-          </button>
-          <button class="btn-primary" onclick="showStep('shipping-kyc')" style="background:var(--text);color:var(--bg);" data-i18n="btn_kyc">
-            📦 &nbsp;Con datos — Envío a domicilio
-          </button>
+        
+        <div>
+          <h5 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px;" data-i18n="event_title_past1">La Bitconf Buenos Aires 2025</h5>
+          <p style="color:var(--text-dim);font-size:13px;line-height:1.9;font-weight:300;" data-i18n="event_desc_past1">Dinámica de arte en vivo en el espacio de 21 LAT. Lai⚡️ creando en tiempo real frente al público bitcoiner.</p>
+          <span style="font-size:11px;color:var(--gold);letter-spacing:1px;">Buenos Aires, Argentina · 2025</span>
         </div>
-
-        <!-- Step 4a: Sin KYC -->
-        <div class="step" id="step-shipping-nokyc">
-          <div class="success-symbol">🔒</div>
-          <h3 data-i18n="nokyc_title">Coordiná por Telegram</h3>
-          <p style="margin:15px 0;font-size:0.85rem;color:var(--text-mid);line-height:1.6;" data-i18n="nokyc_desc">
-            Sin datos personales. Contactanos directamente y coordinamos el envío de forma privada.
-          </p>
-          <div class="success-detail">
-            🔖 <strong data-i18n="nokyc_order">Tu pedido:</strong> <span class="order-id-copy">—</span><br><br>
-            <span data-i18n="nokyc_mention">Mencioná tu número de pedido en el mensaje.</span>
-          </div>
-          <a href="https://t.me/abstract_lai" target="_blank" class="btn-primary" style="background:var(--gold);display:block;text-align:center;text-decoration:none;margin-top:16px;">
-            Abrir Telegram →
-          </a>
-          <button class="btn-secondary" onclick="closeModal()" style="margin-top:10px;">Cerrar</button>
-        </div>
-
-        <!-- Step 4b: Con KYC -->
-        <div class="step" id="step-shipping-kyc">
-          <div class="success-symbol">📦</div>
-          <h3 data-i18n="kyc_title">Datos de envío</h3>
-          <p style="margin:10px 0 16px;font-size:0.8rem;color:var(--text-dim);" data-i18n="kyc_desc">Completá tus datos para recibir el pedido en tu domicilio.</p>
-          <form id="shipping-form" onsubmit="submitShipping(event)" style="text-align:left;">
-            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_name">NOMBRE COMPLETO</label>
-            <input type="text" id="ship-name" required style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
-
-            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_address">DIRECCIÓN</label>
-            <input type="text" id="ship-address" required data-i18n-placeholder="placeholder_address" placeholder="Calle, número, piso, depto" style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
-
-            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_city">CIUDAD / LOCALIDAD</label>
-            <input type="text" id="ship-city" required style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
-
-            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_zip">CÓDIGO POSTAL</label>
-            <input type="text" id="ship-zip" required style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
-
-            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_country">PAÍS</label>
-            <input type="text" id="ship-country" required value="Argentina" style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:12px;">
-
-            <label style="font-size:0.75rem;color:var(--text-mid);letter-spacing:0.05em;display:block;margin-bottom:4px;" data-i18n="label_contact">TELÉFONO O EMAIL</label>
-            <input type="text" id="ship-contact" required data-i18n-placeholder="placeholder_contact" placeholder="Para coordinar la entrega" style="width:100%;padding:10px 12px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--bg);color:var(--text);font-size:0.9rem;margin-bottom:18px;">
-
-            <button type="submit" class="btn-primary" style="background:var(--gold);width:100%;" data-i18n="btn_confirm_shipping">Confirmar envío</button>
-          </form>
-          <button class="btn-secondary" onclick="showStep('success')" style="margin-top:8px;" data-i18n="btn_back">← Volver</button>
-        </div>
-
-        <!-- Step 4c: Confirmación envío -->
-        <div class="step" id="step-shipping-done">
-          <div class="success-symbol">✅</div>
-          <h3 data-i18n="done_title">¡Listo!</h3>
-          <p style="margin:15px 0;font-size:0.85rem;color:var(--text-mid);line-height:1.6;" data-i18n="done_desc">
-            Recibimos tus datos. Te contactaremos para confirmar el envío de tu pieza.
-          </p>
-          <div class="success-detail">
-            🔖 <strong>Pedido:</strong> <span class="order-id-copy">—</span>
-          </div>
-          <button class="btn-primary" onclick="closeModal()" style="background:var(--gold);margin-top:16px;">Cerrar</button>
-        </div>
-
+      </div>
+    </div>
+  </div>
+  <div class="artist-card">
+    <img src="img/avatar-martu.jpg" alt="Martu - Artista" class="artist-img" loading="lazy" decoding="async">
+    <div class="artist-info">
+      <h3>Martu</h3>
+      <div class="role">Artista</div>
+      <p class="artist-motto" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--gold);margin-bottom:6px;">Bridge between the presence and the register</p>
+      <p data-i18n="artist_martu_bio">Arte que explora la relación entre presencia y registro, entre aquello que puede tocarse y aquello que solo existe como energía, información o imagen. Cada pieza funciona como un puente: traduce lo intangible en forma visible y, al mismo tiempo, expande lo físico hacia nuevos espacios de circulación y permanencia.</p>
+      <div style="display:flex;gap:18px;align-items:center;margin-top:15px;">
+        <a href="javascript:void(0)" onclick="openZap('martu','Martu','artist')" title="Zap Artist" style="font-size:11px;text-decoration:none;transition:all 0.3s;padding:4px 12px;border:1px solid rgba(176,141,87,0.3);color:var(--gold);letter-spacing:1px;display:inline-flex;align-items:center;gap:4px;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">⚡ ZAP</a>
       </div>
     </div>
   </div>
 
-  <script>
-    // ── Productos ─────────────────────────────
-    // 📸 Cambiá image: null → "/images/tu-foto.jpg" cuando tengas las fotos
-    const PRODUCTS = [
-      {
-        id: "dije-001",
-        name: { es: "Stay humble and stack sats", en: "Stay humble and stack sats" },
-        label: { es: "Dije de plata 925 · Barra grabada", en: "925 Silver pendant · Engraved bar" },
-        desc: { es: "Nada mas que agregar. Recordatorio diario. Barra de plata 925 con grabado artesanal.", en: "Nothing more to add. A daily reminder. 925 silver bar with artisan engraving." },
-        sats: 278000,
-        icon: "🥈",
-        image: "/images/stay-humble.jpg",
-        imageHover: "/images/barritas-caja.jpg",
-        available: true,
-      },
-      {
-        id: "dije-002",
-        name: { es: "Fix the Money, Fix the World", en: "Fix the Money, Fix the World" },
-        label: { es: "Dije de plata 925 · Barra grabada", en: "925 Silver pendant · Engraved bar" },
-        desc: { es: "Una declaración de principios. Plata 925 con mensaje que trasciende.", en: "A declaration of principles. 925 silver with a message that transcends." },
-        sats: 278000,
-        icon: "🥈",
-        image: "/images/fix-the-money.jpg",
-        imageHover: "/images/barritas-caja.jpg",
-        available: true,
-      },
-      {
-        id: "dije-003",
-        name: { es: "Proof of Work, Proof of Soul", en: "Proof of Work, Proof of Soul" },
-        label: { es: "Dije de plata 925 · Barra grabada", en: "925 Silver pendant · Engraved bar" },
-        desc: { es: "La filosofía del esfuerzo genuino, grabada en plata 925 para siempre.", en: "The philosophy of genuine effort, engraved in 925 silver forever." },
-        sats: 278000,
-        icon: "🥈",
-        image: "/images/proof-of-work.jpg",
-        imageHover: "/images/barritas-caja.jpg",
-        available: true,
-      },
-      {
-        id: "dije-004",
-        name: { es: "Bloque 21", en: "Block 21" },
-        label: { es: "Dije de plata 925", en: "925 Silver pendant" },
-        desc: { es: "Simple. Minimalista. Poderoso. 21 millones y nada mas.", en: "Simple. Minimalist. Powerful. 21 million and nothing more." },
-        sats: 359000,
-        icon: "✦",
-        image: "/images/colgante-21.jpg",
-        imageHover: "/images/collar-bloque21.jpg",
-        available: true,
-      },
-      {
-        id: "dije-005",
-        name: { es: "Dije Rayo ⚡", en: "Lightning Pendant ⚡" },
-        label: { es: "Dije de plata 925", en: "925 Silver pendant" },
-        desc: { es: "El símbolo de Lightning Network en plata 925. Rápido, elegante, definitivo.", en: "The Lightning Network symbol in 925 silver. Fast, elegant, definitive." },
-        sats: 157000,
-        icon: "⚡",
-        image: "/images/dije-rayo.jpg",
-        imageHover: "/images/collar-rayo.jpg",
-        available: true,
-      },
-      {
-        id: "dije-006",
-        name: { es: "Próximamente", en: "Coming soon" },
-        label: { es: "Nueva pieza · En desarrollo", en: "New piece · In development" },
-        desc: { es: "Una nueva pieza está en camino. Seguinos para enterarte primero.", en: "A new piece is on its way. Follow us to be the first to know." },
-        sats: null,
-        icon: "✦",
-        image: null,
-        available: false,
-      },
-    ];
+  <div class="artist-card">
+    <img src="img/avatar-roxy.jpg" alt="Roxy - Artista" class="artist-img" loading="lazy" decoding="async">
+    <div class="artist-info">
+      <h3>Roxy</h3>
+      <div class="role">Artista</div>
+      <p class="artist-motto" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--gold);margin-bottom:6px;">Sovereign Art for Sovereign Minds</p>
+      <p data-i18n="artist_roxy_bio">Artista visual que fusiona técnicas clásicas con la estética Bitcoin. Sus obras exploran la intersección entre valor, belleza y descentralización.</p>
+      <div style="display:flex;gap:18px;align-items:center;margin-top:15px;">
+        <a href="javascript:void(0)" onclick="openZap('roxy','Roxy','artist')" title="Zap Artist" style="font-size:11px;text-decoration:none;transition:all 0.3s;padding:4px 12px;border:1px solid rgba(176,141,87,0.3);color:var(--gold);letter-spacing:1px;display:inline-flex;align-items:center;gap:4px;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">⚡ ZAP</a>
+      </div>
+    </div>
+  </div>
 
-    const LIGHTNING_ADDRESS = "crustycoil11@walletofsatoshi.com";
+  <div class="artist-card">
+    <img src="img/avatar-guadis.jpg" alt="Guadis - Diseñadora Bitcoiner" class="artist-img" loading="lazy" decoding="async">
+    <div class="artist-info">
+      <h3>Guadis</h3>
+      <div class="role" data-i18n="artist_guadis_role">Diseñadora · Creativa</div>
+      <p class="artist-motto" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--gold);margin-bottom:6px;">Bitcoin as a way of life</p>
+      <p data-i18n="artist_guadis_bio">Diseñadora bitcoiner y creativa. Bitcoin como filosofía de vida, amante de la naturaleza, creativa de profesión. Diseño con intención, libertad y propósito.</p>
+      <div style="display:flex;gap:18px;align-items:center;margin-top:15px;">
+        <a href="javascript:void(0)" onclick="openZap('guadis','Guadis','artist')" title="Zap Artist" style="font-size:11px;text-decoration:none;transition:all 0.3s;padding:4px 12px;border:1px solid rgba(176,141,87,0.3);color:var(--gold);letter-spacing:1px;display:inline-flex;align-items:center;gap:4px;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--bg)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">⚡ ZAP</a>
+      </div>
+    </div>
+  </div>
 
-    let currentProduct = null;
-    let currentInvoice = null;
+  <a href="https://t.me/abstract_lai" target="_blank" class="section-cta" data-i18n="artists_join_cta">Quiero sumarme como artista →</a>
 
-    // ── Render ────────────────────────────────
-    function formatSats(n) {
-      return n.toLocaleString("es-AR");
-    }
+  <!-- Hidden creators panel - toggles on click "Creadores" title -->
+  <div id="creators-panel" style="display:none;padding-top:40px;border-top:1px solid var(--border);margin-top:40px;">
+    <div class="creators-portraits">
+      <div class="creator-portrait" onclick="toggleCreator('lai')">
+        <img src="img/avatar.jpg" alt="Lai⚡️" loading="lazy" decoding="async">
+        <h3>Lai⚡️</h3>
+        <div class="role" data-i18n="artist1_role">Fundadora · Artista</div>
+      </div>
+      <div class="creator-portrait" onclick="toggleCreator('martu')">
+        <img src="img/avatar-martu.jpg" alt="Martu" loading="lazy" decoding="async">
+        <h3>Martu</h3>
+        <div class="role">Artista</div>
+      </div>
+      <div class="creator-portrait" onclick="toggleCreator('roxy')">
+        <img src="img/avatar-roxy.jpg" alt="Roxy" loading="lazy" decoding="async">
+        <h3>Roxy</h3>
+        <div class="role">Artista</div>
+      </div>
+      <div class="creator-portrait" onclick="toggleCreator('guadis')">
+        <img src="img/avatar-guadis.jpg" alt="Guadis" loading="lazy" decoding="async">
+        <h3>Guadis</h3>
+        <div class="role" data-i18n="artist_guadis_role">Diseñadora · Creativa</div>
+      </div>
+    </div>
 
-    function renderProducts() {
-      const t = (typeof T !== 'undefined' && T[currentLang]) ? T[currentLang] : {badge_available:"● Disponible",badge_soon:"◌ Próximamente",placeholder_soon:"Próximamente",price_soon:"Precio próximamente",btn_buy:"⚡ Comprar",btn_soon:"Próximamente"};
-      const lang = currentLang || 'es';
-      document.getElementById("shop-grid").innerHTML = PRODUCTS.map(p => `
-        <article class="card" onclick="${p.available ? `openCheckout('${p.id}')` : ''}">
-          <div class="card-image">
-            ${p.image
-              ? `<img src="${p.image}" alt="${p.name[lang]}" loading="lazy" class="img-main">
-                 ${p.imageHover ? `<img src="${p.imageHover}" alt="${p.name[lang]} look" loading="lazy" class="img-hover">` : ''}`
-              : `<div class="placeholder">
-                   <div class="placeholder-symbol">${p.icon}</div>
-                   <div class="placeholder-text">${t.placeholder_soon}</div>
-                 </div>`
-            }
-            <span class="card-badge ${p.available ? 'badge-available' : 'badge-soon'}">
-              ${p.available ? t.badge_available : t.badge_soon}
-            </span>
-          </div>
-          <div class="card-body">
-            <p class="card-label">${p.label[lang]}</p>
-            <h2 class="card-title">${p.name[lang]}</h2>
-            <p class="card-desc">${p.desc[lang]}</p>
-            <div class="card-footer">
-              <span class="price-sats">${p.sats ? `${formatSats(p.sats)} <em>sats ⚡</em>` : `<em style="font-size:0.8rem">${t.price_soon}</em>`}</span>
-              ${p.available
-                ? `<button class="btn-buy" onclick="event.stopPropagation(); openCheckout('${p.id}')">
-                     ${t.btn_buy}
-                   </button>`
-                : `<button class="btn-buy" disabled>${t.btn_soon}</button>`
-              }
-            </div>
-          </div>
-        </article>
-      `).join("");
-    }
+    <div class="creator-expanded" id="creator-lai" style="display:none;">
+      <div class="creator-expanded-header">
+        <img src="img/avatar.jpg" alt="Lai⚡️" class="creator-expanded-avatar">
+        <div>
+          <h3>Lai⚡️</h3>
+          <span class="creator-expanded-motto">Sovereign Art for Sovereign Minds</span>
+          <p class="creator-expanded-bio" data-i18n="artist1_bio">Arte intuitivo que explora emoción y transformación. Acrílicos, texturas y capas que se construyen como las decisiones que nos forman. Buenos Aires, Argentina.</p>
+        </div>
+      </div>
+      <div class="creator-gallery">
+        <img src="img/obra4.jpg" alt="The Rabbit" loading="lazy" onclick="openLightbox('img/obra4.jpg','Block 0 — #001','The Rabbit','Acrílico y texturas sobre lienzo','consult')">
+        <img src="img/obra3.jpg" alt="The Hole" loading="lazy" onclick="openLightbox('img/obra3.jpg','Block 0 — #002','The Hole','Acrílico y texturas sobre lienzo','available')">
+        <img src="img/obra1.jpg" alt="Libertad" loading="lazy" onclick="openLightbox('img/obra1.jpg','Block 0 — #003','Libertad','Acrílico y texturas sobre lienzo','consult')">
+        <img src="img/obra2.jpg" alt="Horizonte Temporal" loading="lazy" onclick="openLightbox('img/obra2.jpg','Block 0 — #004','Horizonte Temporal','Acrílico y texturas sobre lienzo','available')">
+        <img src="img/card-first.jpg" alt="21 LAT Card" loading="lazy">
+        <img src="img/card6.jpg" alt="21 LAT Card" loading="lazy">
+        <img src="img/card7.jpg" alt="21 LAT Card" loading="lazy">
+        <img src="img/card8.jpg" alt="21 LAT Card" loading="lazy">
+        <img src="img/card10.jpg" alt="21 LAT Card" loading="lazy">
+      </div>
+    </div>
 
-    // renderProducts() se llama desde setLang() al cargar
+    <div class="creator-expanded" id="creator-martu" style="display:none;">
+      <div class="creator-expanded-header">
+        <img src="img/avatar-martu.jpg" alt="Martu" class="creator-expanded-avatar">
+        <div>
+          <h3>Martu</h3>
+          <span class="creator-expanded-motto">Bridge between the presence and the register</span>
+          <p class="creator-expanded-bio" data-i18n="artist_martu_bio">Arte que explora la relación entre presencia y registro, entre aquello que puede tocarse y aquello que solo existe como energía, información o imagen.</p>
+        </div>
+      </div>
+      <div class="creator-gallery">
+        <img src="img/avatar-martu.jpg" alt="Martu" loading="lazy" style="object-fit:cover;">
+      </div>
+    </div>
 
-    // ── Modal ─────────────────────────────────
-    window.openCheckout = function(id) {
-      currentProduct = PRODUCTS.find(p => p.id === id);
-      if (!currentProduct) return;
+    <div class="creator-expanded" id="creator-roxy" style="display:none;">
+      <div class="creator-expanded-header">
+        <img src="img/avatar-roxy.jpg" alt="Roxy" class="creator-expanded-avatar">
+        <div>
+          <h3>Roxy</h3>
+          <span class="creator-expanded-motto">Sovereign Art for Sovereign Minds</span>
+          <p class="creator-expanded-bio" data-i18n="artist_roxy_bio">Artista visual que fusiona técnicas clásicas con la estética Bitcoin. Sus obras exploran la intersección entre valor, belleza y descentralización.</p>
+        </div>
+      </div>
+      <div class="creator-gallery">
+        <img src="img/roxy-paspartuz1.jpg" alt="Roxy - Paspartuz" loading="lazy">
+        <img src="img/roxy-paspartuz2.jpg" alt="Roxy - Paspartuz" loading="lazy">
+      </div>
+    </div>
 
-      document.getElementById("summary-icon").textContent = currentProduct.icon;
-      document.getElementById("summary-name").textContent = currentProduct.name[currentLang];
-      document.getElementById("summary-label").textContent = currentProduct.label[currentLang];
-      document.getElementById("summary-price").textContent = `⚡ ${formatSats(currentProduct.sats)} sats`;
-      document.getElementById("modal-title").textContent = "Confirmar compra";
+    <div class="creator-expanded" id="creator-guadis" style="display:none;">
+      <div class="creator-expanded-header">
+        <img src="img/avatar-guadis.jpg" alt="Guadis" class="creator-expanded-avatar">
+        <div>
+          <h3>Guadis</h3>
+          <span class="creator-expanded-motto">Bitcoin as a way of life</span>
+          <p class="creator-expanded-bio" data-i18n="artist_guadis_bio">Diseñadora bitcoiner y creativa. Bitcoin como filosofía de vida, amante de la naturaleza, creativa de profesión.</p>
+        </div>
+      </div>
+      <div class="creator-gallery">
+        <img src="img/avatar-guadis.jpg" alt="Guadis" loading="lazy" style="object-fit:cover;">
+      </div>
+    </div>
+  </div>
+</section>
 
-      showStep("confirm");
-      document.getElementById("overlay").classList.add("open");
-      document.body.style.overflow = "hidden";
-    };
+<!-- collaborations moved inside artist card -->
 
-    window.closeModal = function() {
-      document.getElementById("overlay").classList.remove("open");
-      document.body.style.overflow = "";
-      currentInvoice = null;
-    };
+<section id="blog" style="display:none;">
+  <span class="section-label" data-i18n="blog_label">Blog</span>
+  <h2 class="section-title" data-i18n="blog_title">Noticias & Reflexiones</h2>
+  <p class="section-text" data-i18n="blog_text">Reflexiones sobre Bitcoin, arte y soberanía. Explorando la intersección entre creatividad y libertad financiera.</p>
+  <div class="blog-grid">
+    <article class="blog-card">
+      <time class="blog-date" data-i18n="blog_date1">15 Feb 2026</time>
+      <h3 data-i18n="blog_title1">Bitcoin y el Arte: Una Revolución Silenciosa</h3>
+      <p class="blog-excerpt" data-i18n="blog_excerpt1">Explorando cómo la filosofía de Bitcoin está transformando el mundo del arte y la creatividad.</p>
+      <a href="#" class="blog-link" data-i18n="blog_read_more">Leer más →</a>
+    </article>
+    <article class="blog-card">
+      <time class="blog-date" data-i18n="blog_date2">12 Feb 2026</time>
+      <h3 data-i18n="blog_title2">Proof of Work en el Lienzo</h3>
+      <p class="blog-excerpt" data-i18n="blog_excerpt2">Cada pincelada es irreversible. Reflexiones sobre el trabajo real en el arte.</p>
+      <a href="#" class="blog-link" data-i18n="blog_read_more">Leer más →</a>
+    </article>
+    <article class="blog-card">
+      <time class="blog-date" data-i18n="blog_date3">08 Feb 2026</time>
+      <h3 data-i18n="blog_title3">La Escasez Digital vs La Escasez Física</h3>
+      <p class="blog-excerpt" data-i18n="blog_excerpt3">¿Qué hace que algo sea verdaderamente único en la era digital?</p>
+      <a href="#" class="blog-link" data-i18n="blog_read_more">Leer más →</a>
+    </article>
+  </div>
+  <a href="#contact" class="section-cta" data-i18n="blog_cta">Conectemos</a>
+</section>
 
-    window.closeOnOverlay = function(e) {
-      if (e.target === document.getElementById("overlay")) closeModal();
-    };
+<section id="events" style="display:none;">
+  <span class="section-label" data-i18n="events_label">Eventos</span>
+  <h2 class="section-title" data-i18n="events_main_title">Eventos</h2>
+  <p class="section-text" data-i18n="events_text">Únete a nosotros en exposiciones, charlas y eventos sobre arte y Bitcoin.</p>
+  
+  <!-- Upcoming Events -->
+  <div class="events-section">
+    <h3 class="events-subtitle" data-i18n="events_upcoming">Próximos Eventos</h3>
+    <div class="events-timeline">
+      <div class="event-card">
+        <div class="event-date">
+          <span class="event-day">24</span>
+          <span class="event-month" data-i18n="event_month1">MAR</span>
+        </div>
+        <div class="event-info">
+          <h3 data-i18n="event_title1">Exposición "Block 0"</h3>
+          <p class="event-location" data-i18n="event_location1">Galería Bitcoin Buenos Aires</p>
+          <p class="event-desc" data-i18n="event_desc1">Primera exposición individual de la serie Block 0. Arte meets filosofía Bitcoin.</p>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-date">
+          <span class="event-day">15</span>
+          <span class="event-month" data-i18n="event_month2">ABR</span>
+        </div>
+        <div class="event-info">
+          <h3 data-i18n="event_title2">Charla: "Arte y Soberanía"</h3>
+          <p class="event-location" data-i18n="event_location2">Virtual · Hash21 Studio</p>
+          <p class="event-desc" data-i18n="event_desc2">Conversación sobre creatividad, libertad financiera y el futuro del arte.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    function showStep(name) {
-      document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-      document.getElementById("step-" + name).classList.add("active");
-    }
+  <!-- Past Events -->
+  <div class="events-section">
+    <h3 class="events-subtitle" data-i18n="events_past">Eventos Pasados</h3>
+    <div class="events-timeline">
+      <div class="event-card past-event">
+        <div class="event-date past-date">
+          <span class="event-day">16</span>
+          <span class="event-month" data-i18n="past_event_month1">NOV</span>
+          <span class="event-year">2025</span>
+        </div>
+        <div class="event-info">
+          <div class="past-event-badge" data-i18n="past_event_badge">Evento pasado</div>
+          <h3 data-i18n="past_event_title1">La Bitconf Buenos Aires 2025</h3>
+          <p class="event-location" data-i18n="past_event_location1">Buenos Aires, Argentina</p>
+          <p class="event-desc" data-i18n="past_event_desc1">Dinámica de arte en vivo en el espacio de 21 LAT. Lai⚡️ creando en tiempo real frente al público bitcoiner.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#newsletter" class="section-cta" data-i18n="events_cta">Conectemos</a>
+</section>
 
-    // ── Generar Invoice ───────────────────────
-    window.generateInvoice = async function() {
-      showStep("invoice");
-      document.getElementById("loading-state").style.display = "block";
-      document.getElementById("qr-wrapper").style.display = "none";
-      document.getElementById("modal-title").textContent = "Escanear para pagar";
+<div class="full-section">
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-content">
+    <span class="section-label" data-i18n="newsletter_label">Comunidad</span>
+    <h2 data-i18n="newsletter_title">Únete a la comunidad</h2>
+    <ul class="newsletter-benefits">
+      <li data-i18n="newsletter_benefit1">Novedades de nuevas colecciones</li>
+      <li data-i18n="newsletter_benefit2">Acceso anticipado a piezas certificadas</li>
+      <li data-i18n="newsletter_benefit3">Newsletter educativo de Bitcoin + Arte</li>
+    </ul>
+    <form class="newsletter-form" id="newsletter-form" onsubmit="handleSubscribe(event)">
+      <input type="email" class="newsletter-email" id="sub-email" placeholder="tu@email.com" data-i18n-placeholder="newsletter_placeholder" required>
+      <button type="submit" class="newsletter-submit" id="sub-btn" data-i18n="newsletter_submit">Suscribirse</button>
+    </form>
+    <p id="sub-msg" style="font-size:13px;margin-top:10px;display:none;"></p>
+  </div>
+</section>
+</div>
 
-      try {
-        const [user, domain] = LIGHTNING_ADDRESS.split("@");
-        const lnurlRes = await fetch(`https://${domain}/.well-known/lnurlp/${user}`);
-        if (!lnurlRes.ok) throw new Error("No se pudo conectar con la wallet");
-        const lnurlData = await lnurlRes.json();
+<section class="contact" id="contact">
+  <span class="section-label" data-i18n="contact_community">Sumate a la comunidad</span>
+  <h2 class="section-title" data-i18n="contact_title">Conectemos</h2>
+  <div class="contact-links">
+    <a href="https://www.instagram.com/abstract.lai" target="_blank" class="contact-link">Instagram</a>
+    <a href="https://x.com/abstract_lai" target="_blank" class="contact-link">𝕏 Twitter</a>
+    <a href="https://primal.net/p/nprofile1qqs20z3erzyvdfazuy226ekupernh86kzu6v0uyce92jktjmhpqdymq3ha49c" target="_blank" class="contact-link">Nostr</a>
+    <a href="https://t.me/abstract_lai" target="_blank" class="contact-link">Telegram</a>
+  </div>
+  <div class="lightning-badge" data-i18n="lightning_badge">₿ Bitcoin only</div>
+</section>
+</main>
 
-        const amountMsat = currentProduct.sats * 1000;
-        let callbackUrl = `${lnurlData.callback}?amount=${amountMsat}`;
-        if (lnurlData.commentAllowed && lnurlData.commentAllowed > 0) {
-          const comment = encodeURIComponent(`Hash21 Shop — ${currentProduct.name.en}`);
-          callbackUrl += `&comment=${comment}`;
-        }
-        const invoiceRes = await fetch(callbackUrl);
-        if (!invoiceRes.ok) throw new Error("Error al generar invoice");
-        const invoiceData = await invoiceRes.json();
-        if (invoiceData.status === "ERROR") throw new Error(invoiceData.reason);
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lightbox-info">
+    <h4 id="lb-code"></h4>
+    <p id="lb-name"></p>
+    <span id="lb-tech"></span>
+    <a id="lb-badge" class="availability-badge" href="https://t.me/abstract_lai" target="_blank" style="margin-top:15px; text-decoration: none; cursor: pointer; transition: all 0.3s;"></a>
+    <div class="obra-tags" id="lb-tags"></div>
+    <button class="zap-btn" id="lb-zap-btn" onclick="event.stopPropagation();" style="margin-top:15px;font-size:13px;padding:8px 20px;">
+      <span class="zap-icon">⚡</span> <span data-i18n="zap_btn">Zap</span> <span class="zap-count" id="lb-zap-count"></span>
+    </button>
+  </div>
+</div>
 
-        currentInvoice = invoiceData.pr;
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="logo" style="margin-bottom:15px;">HASH<span>21</span></div>
+      <p class="footer-text" data-i18n="footer_desc">Sovereign art for sovereign minds</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title" data-i18n="footer_nav">Navegación</h4>
+      <a href="#collection" data-i18n="nav_collection">Colección</a>
+      <a href="#philosophy" data-i18n="nav_philosophy">Filosofía</a>
+      <a href="#artists" data-i18n="nav_artists">Creadores</a>
+      <a href="/verify/" data-i18n="nav_verify">Verificar</a>
+      <a href="/blocklab">Block Lab</a>
+      <a href="/shop">Shop</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="footer-title" data-i18n="footer_social">Redes</h4>
+      <a href="https://www.instagram.com/abstract.lai" target="_blank">Instagram</a>
+      <a href="https://x.com/abstract_lai" target="_blank">𝕏 Twitter</a>
+      <a href="https://t.me/abstract_lai" target="_blank">Telegram</a>
+      <a href="https://primal.net/p/nprofile1qqs20z3erzyvdfazuy226ekupernh86kzu6v0uyce92jktjmhpqdymq3ha49c" target="_blank">Nostr</a>
+    </div>
 
-        // QR via API (sin librería)
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentInvoice.toUpperCase())}&bgcolor=ffffff&color=1a1a1a&margin=8`;
-        document.getElementById("qr-img").src = qrUrl;
-        document.getElementById("invoice-string").textContent = currentInvoice;
+  </div>
+  <div class="footer-legal" style="text-align:center;padding:15px 0 0;font-size:11px;letter-spacing:1.5px;">
+    <a href="/faq" style="color:var(--text-dim);text-decoration:none;margin:0 12px;transition:color 0.3s;" onmouseover="this.style.color='#b08d57'" onmouseout="this.style.color=''">FAQ</a>
+    <a href="/terms" style="color:var(--text-dim);text-decoration:none;margin:0 12px;transition:color 0.3s;" onmouseover="this.style.color='#b08d57'" onmouseout="this.style.color=''">Términos</a>
+    <a href="/privacy" style="color:var(--text-dim);text-decoration:none;margin:0 12px;transition:color 0.3s;" onmouseover="this.style.color='#b08d57'" onmouseout="this.style.color=''">Privacidad</a>
+    <a href="/certification" style="color:var(--text-dim);text-decoration:none;margin:0 12px;transition:color 0.3s;" onmouseover="this.style.color='#b08d57'" onmouseout="this.style.color=''">Certificación</a>
+    <!-- About link: pending approval -->
+  </div>
+  <div class="footer-bottom">Hash21 © 2026 — Powered by proof of work ⚡</div>
+</footer>
 
-        document.getElementById("loading-state").style.display = "none";
-        document.getElementById("qr-wrapper").style.display = "flex";
+<script>
+// Gold dust particles
+const c = document.getElementById('dust');
+const ctx = c.getContext('2d');
+let particles = [];
+function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+for (let i = 0; i < 30; i++) {
+  particles.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: -Math.random() * 0.2 - 0.05,
+    o: Math.random() * 0.5 + 0.1
+  });
+}
+function drawDust() {
+  ctx.clearRect(0, 0, c.width, c.height);
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(176,141,87,${p.o})`;
+    ctx.fill();
+    p.x += p.dx;
+    p.y += p.dy;
+    if (p.y < -10) { p.y = c.height + 10; p.x = Math.random() * c.width; }
+    if (p.x < -10 || p.x > c.width + 10) { p.x = Math.random() * c.width; }
+  });
+  requestAnimationFrame(drawDust);
+}
+drawDust();
+</script>
+<script>
+function openLightbox(src, code, name, tech, status) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-code').textContent = code;
+  document.getElementById('lb-name').textContent = name;
+  document.getElementById('lb-tech').textContent = tech;
+  var badge = document.getElementById('lb-badge');
+  var lang = currentLang || 'es';
+  if (status === 'available') {
+    badge.textContent = lang === 'es' ? 'Disponible' : 'Available';
+    badge.className = 'availability-badge badge-available';
+  } else if (status === 'consult') {
+    badge.textContent = lang === 'es' ? 'Consultar' : 'Inquire';
+    badge.className = 'availability-badge badge-consult';
+  } else {
+    badge.textContent = '';
+    badge.className = 'availability-badge';
+  }
+  // Populate tags
+  var tagData = {
+    'Paspartuz 1': {artist:'Roxy', type_es:'Física', type_en:'Physical', status:'consult'},
+    'Paspartuz 2': {artist:'Roxy', type_es:'Física', type_en:'Physical', status:'consult'},
+    'The Rabbit': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'consult'},
+    'The Hole': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'available'},
+    'Libertad': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'consult'},
+    'Horizonte Temporal': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'available'}
+  };
+  var td = tagData[name] || {artist:'Lai⚡️', type_es:'Física', type_en:'Physical'};
+  var typeName = lang === 'en' ? td.type_en : td.type_es;
+  var statusLabel = '';
+  if (td.status === 'available') statusLabel = lang === 'en' ? 'Available' : 'Disponible';
+  else if (td.status === 'consult') statusLabel = lang === 'en' ? 'Inquire' : 'Consultar';
+  var statusClass = td.status === 'available' ? 'badge-available' : 'badge-consult';
+  document.getElementById('lb-tags').innerHTML = '';
 
-        // Intentar WebLN si está disponible (extensión Alby)
-        if (window.webln) {
-          try {
-            await window.webln.enable();
-            const result = await window.webln.sendPayment(currentInvoice);
-            if (result?.preimage) confirmPayment(result.preimage);
-          } catch (_) { /* pago manual */ }
-        }
+  // Wire zap button
+  var obraMap = {'The Rabbit':'the-rabbit','The Hole':'the-hole','Libertad':'libertad','Horizonte Temporal':'horizonte-temporal','Paspartuz 1':'paspartuz-1','Paspartuz 2':'paspartuz-2'};
+  var slug = obraMap[name] || name.toLowerCase().replace(/ /g,'-');
+  var zapBtn = document.getElementById('lb-zap-btn');
+  zapBtn.onclick = function(e) { e.stopPropagation(); openZap(slug, name, 'obra'); };
+  var countEl = document.getElementById('lb-zap-count');
+  var counts = getZapCounts();
+  if (counts[slug] && counts[slug].count > 0) {
+    countEl.textContent = formatSatsShort(counts[slug].total);
+  } else {
+    countEl.textContent = '';
+  }
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+</script>
+<script src="lang.js"></script>
+<script>
+/* 21 LAT carousel */
+let pos = 0;
+const carousel = document.getElementById('carousel');
+function moveCarousel(dir) {
+  const item = carousel.querySelector('.carousel-item');
+  const w = item.offsetWidth + 20;
+  const max = carousel.scrollWidth - carousel.parentElement.offsetWidth;
+  pos = Math.max(0, Math.min(pos + dir * w, max));
+  carousel.style.transform = 'translateX(-' + pos + 'px)';
+}
 
-      } catch (err) {
-        document.getElementById("loading-state").innerHTML = `
-          <p style="color:#c0392b;font-size:0.82rem;margin-bottom:16px;">Error: ${err.message}</p>
-          <button class="btn-secondary" onclick="showStep('confirm')" style="width:auto;padding:10px 20px;">← Volver</button>
-        `;
-      }
-    };
+/* Collection carousel — native scroll + drag + arrows */
+const collCarousel = document.getElementById('collCarousel');
+function moveCollCarousel(dir) {
+  const item = collCarousel.querySelector('.collection-item');
+  const w = item.offsetWidth + 25;
+  collCarousel.scrollBy({ left: dir * w, behavior: 'smooth' });
+}
+(function() {
+  let isDown = false, startX, scrollLeft;
+  collCarousel.addEventListener('mousedown', function(e) {
+    isDown = true; startX = e.pageX - collCarousel.offsetLeft; scrollLeft = collCarousel.scrollLeft;
+  });
+  collCarousel.addEventListener('mouseleave', function() { isDown = false; });
+  collCarousel.addEventListener('mouseup', function() { isDown = false; });
+  collCarousel.addEventListener('mousemove', function(e) {
+    if (!isDown) return; e.preventDefault();
+    collCarousel.scrollLeft = scrollLeft - (e.pageX - collCarousel.offsetLeft - startX);
+  });
+})();
 
-    // ── Copiar invoice ────────────────────────
-    window.copyInvoice = async function() {
-      if (!currentInvoice) return;
-      try {
-        await navigator.clipboard.writeText(currentInvoice);
-        const btn = document.getElementById("copy-btn");
-        btn.textContent = "✓ Copiado";
-        btn.classList.add("copied");
-        setTimeout(() => {
-          btn.textContent = "Copiar invoice";
-          btn.classList.remove("copied");
-        }, 2000);
-      } catch (_) {}
-    };
+/* Toggle collection view */
+function toggleCollection() {
+  const carouselEl = document.getElementById('collectionCarousel');
+  const gridEl = document.getElementById('collectionGrid');
+  const title = document.querySelector('#collection .toggle-title');
+  const isExpanded = !gridEl.classList.contains('hidden');
+  if (isExpanded) {
+    gridEl.classList.add('hidden');
+    carouselEl.classList.remove('hidden');
+    title.classList.remove('expanded');
+  } else {
+    carouselEl.classList.add('hidden');
+    gridEl.classList.remove('hidden');
+    title.classList.add('expanded');
+  }
+}
 
-    // ── Confirmar pago ────────────────────────
-    window.confirmPayment = function(preimage) {
-      const orderId = "H21-" + Date.now().toString(36).toUpperCase();
-      document.getElementById("order-id").textContent = orderId;
-      document.querySelectorAll(".order-id-copy").forEach(el => el.textContent = orderId);
-      document.getElementById("modal-title").textContent = "¡Gracias!";
-      showStep("success");
-    };
+/* Hamburger menu toggle */
+function toggleMenu() {
+  const hamburger = document.querySelector('.hamburger');
+  const navOverlay = document.getElementById('navOverlay');
+  hamburger.classList.toggle('active');
+  navOverlay.classList.toggle('active');
+  document.body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : '';
+}
 
-    window.submitShipping = function(e) {
-      e.preventDefault();
-      const data = {
-        order: document.querySelector(".order-id-copy")?.textContent,
-        product: currentProduct?.name?.es || currentProduct?.name,
-        name: document.getElementById("ship-name").value,
-        address: document.getElementById("ship-address").value,
-        city: document.getElementById("ship-city").value,
-        zip: document.getElementById("ship-zip").value,
-        country: document.getElementById("ship-country").value,
-        contact: document.getElementById("ship-contact").value,
-        timestamp: new Date().toISOString()
-      };
-      // Guardar en localStorage como backup
-      const orders = JSON.parse(localStorage.getItem("h21-orders") || "[]");
-      orders.push(data);
-      localStorage.setItem("h21-orders", JSON.stringify(orders));
-      console.log("📦 Order shipping data:", data);
-      showStep("shipping-done");
-    };
+function closeMenu() {
+  const hamburger = document.querySelector('.hamburger');
+  const navOverlay = document.getElementById('navOverlay');
+  hamburger.classList.remove('active');
+  navOverlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
 
-    // ── i18n ──────────────────────────────────
-    const T = {
-      es: {
-        nav_back: "← Galería",
-        hero_label: "⚡ Pagá con Lightning Network",
-        hero_title_html: "Objetos de<br>diseño",
-        hero_sub: "Piezas únicas inspiradas en Bitcoin.",
-        confirm_note: "Se generará un invoice Lightning por el monto exacto. Pagalo desde cualquier wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.",
-        btn_generate: "⚡  Generar Invoice",
-        btn_cancel: "Cancelar",
-        waiting_scan: "Escaneá el QR y pagá desde tu wallet",
-        post_pay_text_html: 'Una vez realizado el pago, presioná <strong>"Ya pagué"</strong> para coordinar la entrega de tu pieza.',
-        btn_paid: "✓  Ya pagué",
-        success_title: "¡Pago confirmado!",
-        success_desc: "Tu pedido está registrado. Gracias por apoyar el arte Bitcoin.",
-        order_number: "Número de pedido:",
-        shipping_question: "¿Cómo querés coordinar el envío?",
-        btn_nokyc: "🔒  Sin KYC — Coordinar por Telegram",
-        btn_kyc: "📦  Con datos — Envío a domicilio",
-        nokyc_title: "Coordiná por Telegram",
-        nokyc_desc: "Sin datos personales. Contactanos directamente y coordinamos el envío de forma privada.",
-        nokyc_order: "Tu pedido:",
-        nokyc_mention: "Mencioná tu número de pedido en el mensaje.",
-        kyc_title: "Datos de envío",
-        kyc_desc: "Completá tus datos para recibir el pedido en tu domicilio.",
-        label_name: "NOMBRE COMPLETO",
-        label_address: "DIRECCIÓN",
-        placeholder_address: "Calle, número, piso, depto",
-        label_city: "CIUDAD / LOCALIDAD",
-        label_zip: "CÓDIGO POSTAL",
-        label_country: "PAÍS",
-        label_contact: "TELÉFONO O EMAIL",
-        placeholder_contact: "Para coordinar la entrega",
-        btn_confirm_shipping: "Confirmar envío",
-        btn_back: "← Volver",
-        done_title: "¡Listo!",
-        done_desc: "Recibimos tus datos. Te contactaremos para confirmar el envío de tu pieza.",
-        btn_close: "Cerrar",
-        badge_available: "● Disponible",
-        badge_soon: "◌ Próximamente",
-        placeholder_soon: "Próximamente",
-        price_soon: "Precio próximamente",
-        btn_buy: "⚡ Comprar",
-        btn_soon: "Próximamente",
-        modal_confirm: "Confirmar compra",
-        modal_scan: "Escanear para pagar",
-        modal_thanks: "¡Gracias!",
-        copy_invoice: "Copiar invoice",
-        copy_done: "✓ Copiado",
-        telegram_btn: "Abrir Telegram →"
-      },
-      en: {
-        nav_back: "← Gallery",
-        hero_label: "⚡ Pay with Lightning Network",
-        hero_title_html: "Design<br>objects",
-        hero_sub: "Unique pieces inspired by Bitcoin.",
-        confirm_note: "A Lightning invoice will be generated for the exact amount. Pay from any wallet: Wallet of Satoshi, Alby, Phoenix, Muun, etc.",
-        btn_generate: "⚡  Generate Invoice",
-        btn_cancel: "Cancel",
-        waiting_scan: "Scan the QR and pay from your wallet",
-        post_pay_text_html: 'Once payment is made, press <strong>"I paid"</strong> to choose your delivery method.',
-        btn_paid: "✓  I paid",
-        success_title: "Payment confirmed!",
-        success_desc: "Your order is registered. Thanks for supporting Bitcoin art.",
-        order_number: "Order number:",
-        shipping_question: "How would you like to arrange delivery?",
-        btn_nokyc: "🔒  No KYC — Coordinate via Telegram",
-        btn_kyc: "📦  With details — Home delivery",
-        nokyc_title: "Coordinate via Telegram",
-        nokyc_desc: "No personal data required. Contact us directly and we'll arrange private shipping.",
-        nokyc_order: "Your order:",
-        nokyc_mention: "Mention your order number in the message.",
-        kyc_title: "Shipping details",
-        kyc_desc: "Fill in your details to receive your order at home.",
-        label_name: "FULL NAME",
-        label_address: "ADDRESS",
-        placeholder_address: "Street, number, floor, apt",
-        label_city: "CITY",
-        label_zip: "ZIP CODE",
-        label_country: "COUNTRY",
-        label_contact: "PHONE OR EMAIL",
-        placeholder_contact: "To coordinate delivery",
-        btn_confirm_shipping: "Confirm shipping",
-        btn_back: "← Back",
-        done_title: "Done!",
-        done_desc: "We received your details. We'll contact you to confirm shipping.",
-        btn_close: "Close",
-        badge_available: "● Available",
-        badge_soon: "◌ Coming soon",
-        placeholder_soon: "Coming soon",
-        price_soon: "Price coming soon",
-        btn_buy: "⚡ Buy",
-        btn_soon: "Coming soon",
-        modal_confirm: "Confirm purchase",
-        modal_scan: "Scan to pay",
-        modal_thanks: "Thank you!",
-        copy_invoice: "Copy invoice",
-        copy_done: "✓ Copied",
-        telegram_btn: "Open Telegram →"
-      }
-    };
+/* Toggle lightning address */
+function toggleLightning() {
+  var el = document.getElementById('lightning-address');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
 
-    let currentLang = localStorage.getItem('hash21-lang') || 'es';
+/* Toggle creators panel (on title click) */
+function toggleCreatorsPanel() {
+  var panel = document.getElementById('creators-panel');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+  } else {
+    panel.style.display = 'none';
+    // Also close any open creator
+    document.querySelectorAll('.creator-expanded').forEach(function(p) { p.style.display = 'none'; });
+    document.querySelectorAll('.creator-portrait').forEach(function(p) { p.classList.remove('active'); });
+  }
+}
 
-    function setLang(lang) {
-      currentLang = lang;
-      localStorage.setItem('hash21-lang', lang);
-      const t = T[lang];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (t[key]) {
-          if (key.endsWith('_html')) {
-            el.innerHTML = t[key];
-          } else {
-            el.textContent = t[key];
-          }
-        }
-      });
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (t[key]) el.placeholder = t[key];
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.style.fontWeight = btn.textContent.trim().toLowerCase() === lang ? '600' : '300';
-        btn.style.color = btn.textContent.trim().toLowerCase() === lang ? 'var(--gold)' : 'var(--text-mid)';
-      });
-      document.documentElement.lang = lang;
-      renderProducts();
-    }
+/* Toggle creator expanded panel */
+function toggleCreator(id) {
+  var panel = document.getElementById('creator-' + id);
+  var allPanels = document.querySelectorAll('.creator-expanded');
+  var allPortraits = document.querySelectorAll('.creator-portrait');
+  var isOpen = panel.style.display !== 'none';
+  
+  // Close all
+  allPanels.forEach(function(p) { p.style.display = 'none'; });
+  allPortraits.forEach(function(p) { p.classList.remove('active'); });
+  
+  // If it was closed, open it
+  if (!isOpen) {
+    panel.style.display = 'block';
+    // Mark active portrait
+    var portraits = document.querySelectorAll('.creator-portrait');
+    portraits.forEach(function(p) {
+      if (p.getAttribute('onclick').indexOf(id) !== -1) p.classList.add('active');
+    });
+    // Scroll to panel
+    setTimeout(function() { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+  }
+}
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+/* Toggle artist projects */
+function toggleProjects() {
+  var el = document.getElementById('artist-projects');
+  var toggle = document.getElementById('projects-toggle');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    toggle.textContent = (currentLang === 'es' ? 'Proyectos & Experiencia ↑' : 'Projects & Experience ↑');
+  } else {
+    el.style.display = 'none';
+    toggle.textContent = (currentLang === 'es' ? 'Proyectos & Experiencia →' : 'Projects & Experience →');
+  }
+}
+
+/* Newsletter subscription */
+function handleSubscribe(e) {
+  e.preventDefault();
+  var email = document.getElementById('sub-email').value;
+  var btn = document.getElementById('sub-btn');
+  var msg = document.getElementById('sub-msg');
+  if (!email) return;
+  
+  btn.disabled = true;
+  btn.textContent = '...';
+  
+  /* Save to localStorage as backup */
+  var subs = JSON.parse(localStorage.getItem('hash21-subs') || '[]');
+  subs.push({email: email, date: new Date().toISOString()});
+  localStorage.setItem('hash21-subs', JSON.stringify(subs));
+  
+  /* Send via Formspree */
+  fetch('https://formspree.io/f/xpwzgqvl', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    body: JSON.stringify({email: email, _subject: 'Nueva suscripción Hash21', source: 'hash21.studio'})
+  }).then(function(r) {
+    if (r.ok) {
+      msg.style.display = 'block';
+      msg.style.color = '#2dd4a8';
+      msg.textContent = currentLang === 'es' ? '✓ ¡Suscripción exitosa! Te mantendremos al tanto.' : '✓ Successfully subscribed! We\'ll keep you posted.';
+      document.getElementById('sub-email').value = '';
     } else {
-      setLang(currentLang);
+      throw new Error('fail');
     }
-  </script>
+  }).catch(function() {
+    /* Fallback: mailto */
+    msg.style.display = 'block';
+    msg.style.color = 'var(--gold)';
+    msg.textContent = currentLang === 'es' ? '✓ ¡Gracias! Te contactaremos pronto.' : '✓ Thanks! We\'ll be in touch soon.';
+    document.getElementById('sub-email').value = '';
+  }).finally(function() {
+    btn.disabled = false;
+    btn.textContent = currentLang === 'es' ? 'Suscribirse' : 'Subscribe';
+  });
+}
+</script>
+
+
+<!-- ZAP MODAL -->
+<div class="zap-modal-overlay" id="zapModal" onclick="if(event.target===this)closeZap()">
+  <div class="zap-modal">
+    <button class="zap-modal-close" onclick="closeZap()">×</button>
+    <h3>⚡ Zap</h3>
+    <div class="zap-target-name" id="zapTargetName"></div>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:20px;line-height:1.6;" data-i18n="zap_clarify">Apreciá esta obra con sats. No es una compra — es un gesto de valor directo al artista.</p>
+    
+    <div id="zapSelectPhase">
+      <div class="zap-amounts">
+        <button class="zap-amount-btn" onclick="selectZapAmount(21)">😊 21</button>
+        <button class="zap-amount-btn" onclick="selectZapAmount(210)">🚀 210</button>
+        <button class="zap-amount-btn" onclick="selectZapAmount(2100)">🔥 2,100</button>
+        <button class="zap-amount-btn" onclick="selectZapAmount(21000)">⚡ 21K</button>
+      </div>
+      <input type="number" class="zap-custom-input" id="zapCustomAmount" placeholder="Monto personalizado (sats)" data-i18n-placeholder="zap_custom_placeholder" min="1" style="margin-bottom:12px;">
+      <input type="text" class="zap-custom-input" id="zapMessage" placeholder="Dejá un mensaje (opcional)" data-i18n-placeholder="zap_message_placeholder" maxlength="140" style="margin-bottom:20px;" data-i18n-placeholder="zap_message_placeholder">
+      <button class="zap-pay-btn" onclick="generateZapInvoice()" data-i18n="zap_generate">⚡ Generate Invoice</button>
+    </div>
+    
+    <div id="zapPayPhase" style="display:none;">
+      <div class="zap-qr-container active" id="zapQR"></div>
+      <p style="font-size:12px;color:var(--text-dim);margin:10px 0;" data-i18n="zap_scan">Scan with any Lightning wallet</p>
+      <div class="zap-invoice-text active" id="zapInvoiceText" onclick="copyZapInvoice()" title="Click to copy"></div>
+      <p style="font-size:11px;color:var(--text-dim);margin-top:10px;cursor:pointer;" onclick="copyZapInvoice()" data-i18n="zap_copy">📋 Tap to copy invoice</p>
+      <button class="zap-pay-btn" style="margin-top:15px;" onclick="window.open(zapLnurl,'_blank')" data-i18n="zap_open_wallet">Open in wallet</button>
+      <p id="zapStatusText" style="font-size:12px;margin-top:12px;min-height:18px;letter-spacing:1px;"></p>
+    </div>
+    
+    <div class="zap-success" id="zapSuccess">
+      <div class="check">⚡</div>
+      <h3 data-i18n="zap_thanks">Thank you!</h3>
+      <p style="color:var(--text-dim);font-size:13px;" data-i18n="zap_sent">Zap sent to the artist</p>
+    </div>
+  </div>
+</div>
+
+<!-- QR Code library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<!-- ZAP SYSTEM JS (LNbits) -->
+<script>
+const LNBITS_URL = "https://demo.lnbits.com";
+const LNBITS_KEY = "50fe5632be8d4ec69e594f2b139f4c5c"; // Invoice/read key
+const LNBITS_ADMIN = "e5c9ee0d6f52425f8d029e76ad134acd"; // Admin key for creating invoices
+let currentZapTarget = {};
+let selectedZapAmount = 1000;
+let zapLnurl = "";
+let zapPaymentHash = "";
+let zapCheckInterval = null;
+
+// Zap counts stored in localStorage
+function getZapCounts() {
+  try { return JSON.parse(localStorage.getItem('h21_zaps') || '{}'); } catch(e) { return {}; }
+}
+function addZapCount(id, amount) {
+  const counts = getZapCounts();
+  if (!counts[id]) counts[id] = { total: 0, count: 0 };
+  counts[id].total += amount;
+  counts[id].count += 1;
+  localStorage.setItem('h21_zaps', JSON.stringify(counts));
+  updateZapDisplays();
+}
+function updateZapDisplays() {
+  const counts = getZapCounts();
+  document.querySelectorAll('.zap-count').forEach(el => {
+    const id = el.id.replace('zap-count-', '');
+    if (counts[id] && counts[id].count > 0) {
+      el.textContent = formatSatsShort(counts[id].total);
+    }
+  });
+}
+function formatSatsShort(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(n >= 10000 ? 0 : 1) + 'K';
+  return n.toString();
+}
+
+function openZap(id, name, type) {
+  currentZapTarget = { id, name, type };
+  document.getElementById('zapTargetName').textContent = name;
+  document.getElementById('zapSelectPhase').style.display = 'block';
+  document.getElementById('zapPayPhase').style.display = 'none';
+  document.getElementById('zapSuccess').classList.remove('active');
+  document.getElementById('zapModal').classList.add('active');
+  document.getElementById('zapStatusText').textContent = '';
+  document.body.style.overflow = 'hidden';
+  document.querySelectorAll('.zap-amount-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('zapCustomAmount').value = '';
+  selectedZapAmount = 0;
+}
+
+function closeZap() {
+  document.getElementById('zapModal').classList.remove('active');
+  document.body.style.overflow = '';
+  if (zapCheckInterval) { clearInterval(zapCheckInterval); zapCheckInterval = null; }
+}
+
+function selectZapAmount(amount) {
+  selectedZapAmount = amount;
+  document.querySelectorAll('.zap-amount-btn').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+  document.getElementById('zapCustomAmount').value = '';
+}
+
+// Poll LNbits for payment status
+function pollPayment(paymentHash, amount) {
+  const statusEl = document.getElementById('zapStatusText');
+  const lang = document.documentElement.lang || 'es';
+  statusEl.textContent = lang === 'en' ? 'Waiting for payment...' : 'Esperando pago...';
+  statusEl.style.color = 'var(--gold)';
+  
+  let elapsed = 0;
+  zapCheckInterval = setInterval(async () => {
+    elapsed += 2;
+    try {
+      const res = await fetch(LNBITS_URL + '/api/v1/payments/' + paymentHash, {
+        headers: { 'X-Api-Key': LNBITS_KEY }
+      });
+      const data = await res.json();
+      if (data.paid === true) {
+        clearInterval(zapCheckInterval);
+        zapCheckInterval = null;
+        onZapConfirmed(amount);
+        return;
+      }
+    } catch(e) {}
+    
+    // Animate dots
+    const dots = '.'.repeat((elapsed % 6) / 2 + 1);
+    statusEl.textContent = (lang === 'en' ? 'Waiting for payment' : 'Esperando pago') + dots;
+    
+    // Timeout after 5 min
+    if (elapsed > 300) {
+      clearInterval(zapCheckInterval);
+      zapCheckInterval = null;
+      statusEl.textContent = lang === 'en' ? 'Invoice expired. Try again.' : 'Invoice expirado. Intentá de nuevo.';
+      statusEl.style.color = 'var(--text-dim)';
+    }
+  }, 2000);
+}
+
+function onZapConfirmed(amount) {
+  if (zapCheckInterval) { clearInterval(zapCheckInterval); zapCheckInterval = null; }
+  
+  // Update count
+  addZapCount(currentZapTarget.id, amount);
+  
+  // Show success
+  document.getElementById('zapSelectPhase').style.display = 'none';
+  document.getElementById('zapPayPhase').style.display = 'none';
+  document.getElementById('zapSuccess').classList.add('active');
+  document.getElementById('zapStatusText').textContent = '';
+  
+  // Auto-close after 5 seconds
+  setTimeout(() => closeZap(), 5000);
+}
+
+async function generateZapInvoice() {
+  const custom = parseInt(document.getElementById('zapCustomAmount').value);
+  const amount = custom > 0 ? custom : selectedZapAmount;
+  if (!amount || amount < 1) {
+    alert(document.documentElement.lang === 'en' ? 'Select an amount' : 'Seleccioná un monto');
+    return;
+  }
+  selectedZapAmount = amount;
+  const msg = document.getElementById('zapMessage').value || '';
+  const memo = '⚡ Zap: ' + currentZapTarget.name + (msg ? ' — ' + msg : '');
+  
+  try {
+    // Create invoice via LNbits
+    const res = await fetch(LNBITS_URL + '/api/v1/payments', {
+      method: 'POST',
+      headers: { 'X-Api-Key': LNBITS_ADMIN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ out: false, amount: amount, memo: memo })
+    });
+    const data = await res.json();
+    
+    if (!data.payment_request) throw new Error('No invoice received');
+    
+    const invoice = data.payment_request;
+    zapPaymentHash = data.payment_hash;
+    zapLnurl = 'lightning:' + invoice;
+    
+    document.getElementById('zapSelectPhase').style.display = 'none';
+    document.getElementById('zapPayPhase').style.display = 'block';
+    
+    // Generate QR
+    const qrContainer = document.getElementById('zapQR');
+    qrContainer.innerHTML = '';
+    QRCode.toCanvas(invoice, { width: 200, margin: 2, color: { dark: '#1a1a1a', light: '#fafaf8' } }, function(err, canvas) {
+      if (!err) qrContainer.appendChild(canvas);
+    });
+    
+    document.getElementById('zapInvoiceText').textContent = invoice;
+    
+    // Poll LNbits for payment confirmation
+    pollPayment(zapPaymentHash, amount);
+    
+  } catch(e) {
+    console.error('Zap error:', e);
+    const lang = document.documentElement.lang || 'es';
+    document.getElementById('zapSelectPhase').style.display = 'none';
+    document.getElementById('zapPayPhase').style.display = 'block';
+    document.getElementById('zapQR').innerHTML = '<p style="color:var(--gold);font-size:14px;">' + (lang === 'en' ? 'Error generating invoice. Try again.' : 'Error generando invoice. Intentá de nuevo.') + '</p>';
+  }
+}
+
+function copyZapInvoice() {
+  const text = document.getElementById('zapInvoiceText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById('zapInvoiceText');
+    const orig = el.textContent;
+    el.textContent = document.documentElement.lang === 'en' ? '✅ Copied!' : '✅ Copiado!';
+    setTimeout(() => el.textContent = orig, 1500);
+  });
+}
+
+// Inject zap buttons into collection items
+document.addEventListener('DOMContentLoaded', function() {
+  const obras = [
+    { img: 'obra4.jpg', id: 'the-rabbit', name: 'The Rabbit' },
+    { img: 'obra3.jpg', id: 'the-hole', name: 'The Hole' },
+    { img: 'obra1.jpg', id: 'libertad', name: 'Libertad' },
+    { img: 'obra2.jpg', id: 'horizonte-temporal', name: 'Horizonte Temporal' },
+    { img: 'roxy-paspartuz1.jpg', id: 'paspartuz-1', name: 'Paspartuz 1' },
+    { img: 'roxy-paspartuz2.jpg', id: 'paspartuz-2', name: 'Paspartuz 2' },
+  ];
+  
+  document.querySelectorAll('.collection-item').forEach(item => {
+    const imgEl = item.querySelector('img');
+    if (!imgEl) return;
+    const src = imgEl.getAttribute('src') || '';
+    const obra = obras.find(o => src.includes(o.img));
+    // Extract name from info p tag as fallback
+    const infoP = item.querySelector('.info p');
+    const obraName = obra ? obra.name : (infoP ? infoP.textContent : 'obra');
+    const obraId = obra ? obra.id : obraName.toLowerCase().replace(/ /g, '-');
+    
+    // Zap button in info area
+    const info = item.querySelector('.info');
+    if (info && !info.querySelector('.grid-zap')) {
+      const gridZap = document.createElement('button');
+      gridZap.className = 'grid-zap';
+      gridZap.onclick = function(e) { e.stopPropagation(); openZap(obraId, obraName, 'obra'); };
+      gridZap.innerHTML = '⚡ Zap';
+      info.appendChild(gridZap);
+    }
+  });
+  
+  // Add tags to collection items
+  const obraTagData = {
+    'roxy-paspartuz1.jpg': {artist:'Roxy', type_es:'Física', type_en:'Physical', status:'consult'},
+    'roxy-paspartuz2.jpg': {artist:'Roxy', type_es:'Física', type_en:'Physical', status:'consult'},
+    'obra4.jpg': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'consult'},
+    'obra3.jpg': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'available'},
+    'obra1.jpg': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'consult'},
+    'obra2.jpg': {artist:'Lai⚡️', type_es:'Física', type_en:'Physical', status:'available'},
+  };
+  const cLang = document.documentElement.lang || 'es';
+  document.querySelectorAll('.collection-item').forEach(item => {
+    const imgEl = item.querySelector('img');
+    if (!imgEl) return;
+    const src = imgEl.getAttribute('src') || '';
+    const key = Object.keys(obraTagData).find(k => src.includes(k));
+    if (!key) return;
+    const td = obraTagData[key];
+    const info = item.querySelector('.info');
+    if (!info) return;
+  });
+
+  // Add zap button to artist card
+  const artistSocials = document.querySelector('.artist-card .artist-info div[style*="display:flex"]');
+  if (artistSocials) {
+    const zapLink = document.createElement('a');
+    zapLink.href = 'javascript:void(0)';
+    zapLink.onclick = function() { openZap('lai', 'Lai⚡️', 'artist'); };
+    zapLink.title = 'Zap Artist';
+    zapLink.style.cssText = 'font-size:11px;text-decoration:none;transition:all 0.3s;padding:4px 12px;border:1px solid rgba(176,141,87,0.3);color:var(--gold);letter-spacing:1px;display:inline-flex;align-items:center;gap:4px;margin-left:5px;';
+    zapLink.innerHTML = '⚡ ZAP';
+    zapLink.onmouseover = function() { this.style.background='var(--gold)'; this.style.color='var(--bg)'; };
+    zapLink.onmouseout = function() { this.style.background='transparent'; this.style.color='var(--gold)'; };
+    artistSocials.appendChild(zapLink);
+  }
+  
+  updateZapDisplays();
+});
+</script>
 
 </body>
 </html>

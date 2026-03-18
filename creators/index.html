@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creadores — Hash21</title>
+  <meta name="description" content="Conocé a los artistas y creadores de Hash21. Arte soberano, creación libre.">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GB0GQ5P9NE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GB0GQ5P9NE');
+</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --bg2: #f2f0ec;
+      --text: #1a1a1a;
+      --text-dim: #999;
+      --gold: #b08d57;
+      --border: rgba(0,0,0,0.07);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 50px;
+      border-bottom: 1px solid var(--border);
+    }
+    nav .logo { font-family: 'Inter', sans-serif; font-size: 14px; letter-spacing: 6px; font-weight: 500; text-decoration: none; color: var(--text); }
+    nav .logo span { color: var(--gold); }
+    nav a.back {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav a.back:hover { color: var(--gold); }
+
+    /* HEADER */
+    .page-header {
+      text-align: center;
+      padding: 80px 20px 60px;
+    }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 300;
+      margin-bottom: 15px;
+    }
+    .page-header p {
+      font-size: 13px;
+      color: var(--text-dim);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* CREATORS GRID */
+    .creators-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 50px 100px;
+    }
+
+    .creator-card {
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .creator-card:hover { transform: translateY(-5px); }
+
+    .creator-img-wrapper {
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 25px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .creator-card:hover .creator-img-wrapper { border-color: var(--gold); }
+    .creator-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .creator-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 5px;
+    }
+    .creator-card .role {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .creator-card .motto {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .creator-card .bio {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      max-width: 320px;
+      margin: 0 auto 15px;
+    }
+
+    .zap-link {
+      font-size: 11px;
+      text-decoration: none;
+      padding: 6px 16px;
+      border: 1px solid rgba(176,141,87,0.3);
+      color: var(--gold);
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.3s;
+    }
+    .zap-link:hover { background: var(--gold); color: var(--bg); }
+
+    /* LANG SWITCH */
+    .lang-switch {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-switch:hover { color: var(--gold); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px; }
+      .page-header { padding: 50px 20px 40px; }
+      .page-header h1 { font-size: 36px; }
+      .creators-grid { padding: 0 20px 60px; gap: 30px; grid-template-columns: 1fr; }
+      .creator-img-wrapper { width: 180px; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">HASH<span>21</span></a>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <button class="lang-switch" onclick="toggleLang()" id="langBtn">EN</button>
+    <a href="/" class="back" data-i18n="back_home">← Inicio</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1 data-i18n="creators_title">Creadores</h1>
+  <p data-i18n="creators_desc">Artistas y creativos que crean desde la libertad. Cada creador es guardián de su energía, responsable de su visión y dueño de su proceso.</p>
+</div>
+
+<div class="creators-grid">
+
+  <!-- Lai -->
+  <div class="creator-card">
+    <div class="creator-img-wrapper">
+      <img src="/img/avatar.jpg" alt="Lai⚡️" loading="lazy">
+    </div>
+    <h3>Lai⚡️</h3>
+    <div class="role" data-i18n="c_lai_role">Fundadora · Artista</div>
+    <div class="motto">Sovereign Art for Sovereign Minds</div>
+    <p class="bio" data-i18n="c_lai_bio">Arte intuitivo que explora emoción y transformación. Acrílicos, texturas y capas que se construyen como las decisiones que nos forman. Buenos Aires, Argentina.</p>
+    <a href="javascript:void(0)" class="zap-link" onclick="window.location.href='/#artists'">⚡ ZAP</a>
+  </div>
+
+  <!-- Martu -->
+  <div class="creator-card">
+    <div class="creator-img-wrapper">
+      <img src="/img/avatar-martu.jpg" alt="Martu" loading="lazy">
+    </div>
+    <h3>Martu</h3>
+    <div class="role" data-i18n="c_martu_role">Artista</div>
+    <div class="motto">Bridge between the presence and the register</div>
+    <p class="bio" data-i18n="c_martu_bio">Arte que explora la relación entre presencia y registro, entre aquello que puede tocarse y aquello que solo existe como energía, información o imagen.</p>
+    <a href="javascript:void(0)" class="zap-link" onclick="window.location.href='/#artists'">⚡ ZAP</a>
+  </div>
+
+  <!-- Roxy -->
+  <div class="creator-card">
+    <div class="creator-img-wrapper">
+      <img src="/img/avatar-roxy.jpg" alt="Roxy" loading="lazy">
+    </div>
+    <h3>Roxy</h3>
+    <div class="role" data-i18n="c_roxy_role">Artista</div>
+    <div class="motto">Sovereign Art for Sovereign Minds</div>
+    <p class="bio" data-i18n="c_roxy_bio">Artista visual que fusiona técnicas clásicas con la estética Bitcoin. Sus obras exploran la intersección entre valor, belleza y descentralización.</p>
+    <a href="javascript:void(0)" class="zap-link" onclick="window.location.href='/#artists'">⚡ ZAP</a>
+  </div>
+
+  <!-- Guadis -->
+  <div class="creator-card">
+    <div class="creator-img-wrapper">
+      <img src="/img/avatar-guadis.jpg" alt="Guadis" loading="lazy">
+    </div>
+    <h3>Guadis</h3>
+    <div class="role" data-i18n="c_guadis_role">Diseñadora · Creativa</div>
+    <div class="motto">Bitcoin as a way of life</div>
+    <p class="bio" data-i18n="c_guadis_bio">Diseñadora bitcoiner y creativa. Bitcoin como filosofía de vida, amante de la naturaleza, creativa de profesión.</p>
+    <a href="javascript:void(0)" class="zap-link" onclick="window.location.href='/#artists'">⚡ ZAP</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 Hash21 · <a href="/" style="color:var(--gold);text-decoration:none;">hash21.studio</a></p>
+</footer>
+
+<script>
+let currentLang = localStorage.getItem('h21lang') || 'es';
+
+const translations = {
+  es: {
+    creators_title: "Creadores",
+    creators_desc: "Artistas y creativos que crean desde la libertad. Cada creador es guardián de su energía, responsable de su visión y dueño de su proceso.",
+    back_home: "← Inicio",
+    c_lai_role: "Fundadora · Artista",
+    c_lai_bio: "Arte intuitivo que explora emoción y transformación. Acrílicos, texturas y capas que se construyen como las decisiones que nos forman. Buenos Aires, Argentina.",
+    c_martu_role: "Artista",
+    c_martu_bio: "Arte que explora la relación entre presencia y registro, entre aquello que puede tocarse y aquello que solo existe como energía, información o imagen.",
+    c_roxy_role: "Artista",
+    c_roxy_bio: "Artista visual que fusiona técnicas clásicas con la estética Bitcoin. Sus obras exploran la intersección entre valor, belleza y descentralización.",
+    c_guadis_role: "Diseñadora · Creativa",
+    c_guadis_bio: "Diseñadora bitcoiner y creativa. Bitcoin como filosofía de vida, amante de la naturaleza, creativa de profesión.",
+  },
+  en: {
+    creators_title: "Creators",
+    creators_desc: "Artists and creatives who create from freedom. Each creator is guardian of their energy, responsible for their vision and owner of their process.",
+    back_home: "← Home",
+    c_lai_role: "Founder · Artist",
+    c_lai_bio: "Intuitive art exploring emotion and transformation. Acrylics, textures and layers that build like the decisions that shape us. Buenos Aires, Argentina.",
+    c_martu_role: "Artist",
+    c_martu_bio: "Art that explores the relationship between presence and record, between what can be touched and what only exists as energy, information or image.",
+    c_roxy_role: "Artist",
+    c_roxy_bio: "Visual artist fusing classical techniques with Bitcoin aesthetics. Her works explore the intersection between value, beauty and decentralization.",
+    c_guadis_role: "Designer · Creative",
+    c_guadis_bio: "Bitcoin designer and creative. Bitcoin as a philosophy of life, nature lover, creative by profession.",
+  }
+};
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('h21lang', lang);
+  document.documentElement.lang = lang;
+  document.getElementById('langBtn').textContent = lang === 'es' ? 'EN' : 'ES';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) el.textContent = translations[lang][key];
+  });
+}
+
+function toggleLang() {
+  applyLang(currentLang === 'es' ? 'en' : 'es');
+}
+
+applyLang(currentLang);
+</script>
+</body>
+</html>

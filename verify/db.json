@@ -1,0 +1,32 @@
+[
+  {
+    "hash": "de7c5e1b744c9339d4aeef4703ca17f10e9991913fab8b83f0cb4279547be44d",
+    "title": "The Rabbit",
+    "artist": "Abstract Lai",
+    "year": "2025",
+    "technique": "Acrílico y texturas sobre lienzo",
+    "series": "Block 0 — #001",
+    "certification_date": "2026-02-13",
+    "timestamp_service": "OpenTimestamps",
+    "image": "../img/obra4.jpg",
+    "status": "certified",
+    "bitcoin_block": 936387,
+    "merkle_root": "33279954427594e69bc11e9cd4ea8bc42cdec2ca517f3eb552995f07bf97fdbd",
+    "mempool_url": "https://mempool.space/block/936387"
+  },
+  {
+    "hash": "ea2274905a30a8629cb1839d0c0a95528be26e03dd145d64abc0d1d0d7b63457",
+    "title": "Libertad",
+    "artist": "Abstract Lai",
+    "year": "2025",
+    "technique": "Acrílico y texturas sobre lienzo",
+    "series": "Block 0 — #003",
+    "certification_date": "2026-02-15",
+    "timestamp_service": "OpenTimestamps",
+    "image": "../img/obra1.jpg",
+    "status": "certified",
+    "bitcoin_block": 936793,
+    "merkle_root": "0ae72abc9f1cdc28c1396770bcc8d601c80b2fef7e51729eb51d191c291df6ea",
+    "mempool_url": "https://mempool.space/block/936793"
+  }
+]

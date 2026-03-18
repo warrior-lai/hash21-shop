@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block Lab — Hash21</title>
+<meta name="description" content="Block Lab: Laboratorio de pensamiento y creación en Bitcoin. Un espacio de Hash21 donde el arte se encuentra con la soberanía.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0e0e;
+  --text: #e8e0d4;
+  --text-dim: #8a8478;
+  --gold: #b08d57;
+  --surface: #181614;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--gold); text-decoration: none; transition: opacity 0.3s; }
+a:hover { opacity: 0.7; }
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 30px 120px;
+}
+
+/* Header */
+.page-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(14,14,14,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(176,141,87,0.08);
+}
+.header-left { display: flex; align-items: center; gap: 20px; }
+.back-nav {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.back-nav:hover { color: var(--gold); opacity: 1; }
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+}
+.logo span { color: var(--gold); }
+.lang-switch { display: flex; gap: 4px; }
+.lang-btn {
+  background: transparent;
+  border: 1px solid rgba(176,141,87,0.2);
+  color: var(--text-dim);
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.lang-btn.active { border-color: var(--gold); color: var(--gold); }
+
+/* Content */
+.content { padding-top: 80px; }
+
+.lab-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(32px, 6vw, 48px);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.h1-sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-bottom: 50px;
+  display: block;
+}
+
+.intro {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 2;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.manifesto {
+  margin: 40px 0 50px;
+  padding-left: 20px;
+  border-left: 2px solid rgba(176,141,87,0.3);
+}
+.manifesto p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 2;
+  margin-bottom: 6px;
+}
+
+/* Sections */
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--text);
+  margin-bottom: 20px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(176,141,87,0.12);
+}
+
+.audience-list {
+  list-style: none;
+  padding: 0;
+}
+.audience-list li {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 2.2;
+  padding-left: 18px;
+  position: relative;
+}
+.audience-list li::before {
+  content: "·";
+  color: var(--gold);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+.modality {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 2;
+  margin-top: 15px;
+}
+
+.modality-highlight {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--text);
+  margin-top: 25px;
+  line-height: 1.8;
+}
+
+/* Final CTA */
+.final-cta {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(176,141,87,0.12);
+  text-align: center;
+}
+.cta-btn {
+  display: inline-block;
+  padding: 16px 35px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.cta-btn:hover { background: var(--gold); color: var(--bg); opacity: 1; }
+.cta-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 300;
+  margin-top: 12px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .page-header { padding: 15px 20px; }
+  .back-nav { display: none; }
+  .content { padding-top: 60px; }
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GB0GQ5P9NE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GB0GQ5P9NE');
+</script>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="header-left">
+    <a href="/" class="back-nav">← Hash21</a>
+    <a href="/" class="logo">HASH<span>21</span></a>
+  </div>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<div class="container content">
+  <span class="lab-label">Hash21</span>
+  <h1>Block Lab</h1>
+  <span class="h1-sub" data-i18n="bl_sub">Laboratorio de pensamiento y creación en Bitcoin</span>
+
+  <p class="intro" data-i18n="bl_intro">Block Lab es el espacio de Hash21 donde el arte se encuentra con la soberanía. Leemos y debatimos las ideas entorno a Bitcoin. Exploramos sus implicancias culturales y evolutivas. Creamos en diálogo. Creamos obras.</p>
+
+  <p class="intro" data-i18n="bl_intro2">Es un espacio de pensamiento, práctica y criterio.</p>
+
+  <h2 class="section-title" data-i18n="bl_audience_title">¿Para quién es?</h2>
+  <ul class="audience-list">
+    <li data-i18n="bl_aud1">Para artistas que quieren comprender Bitcoin más allá de la superficie.</li>
+    <li data-i18n="bl_aud2">Para bitcoiners interesados en la filosofía y el arte como expresión cultural.</li>
+    <li data-i18n="bl_aud3">Para quienes buscan profundidad y sentido en lugar de tendencia.</li>
+    <li data-i18n="bl_aud4">Para quienes ven en Bitcoin una infraestructura para la evolución humana, no solo financiera.</li>
+  </ul>
+
+  <h2 class="section-title" data-i18n="bl_mod_title">Modalidad</h2>
+  <p class="modality" data-i18n="bl_mod1">Block Lab no es masivo. Funciona por aplicación o invitación. Buscamos compromiso, no volumen. Diálogo real, no exposición superficial.</p>
+  <div class="final-cta">
+    <a href="https://t.me/abstract_lai" target="_blank" class="cta-btn" data-i18n="bl_cta">Contactar</a>
+    <span class="cta-note" data-i18n="bl_cta_note">Aplicación o invitación.</span>
+  </div>
+</div>
+
+<script>
+const translations = {
+  es: {
+    bl_sub: "Laboratorio de pensamiento y creación en Bitcoin",
+    bl_intro: "Block Lab es el espacio de Hash21 donde el arte se encuentra con la soberanía. Leemos y debatimos las ideas entorno a Bitcoin. Exploramos sus implicancias culturales y evolutivas. Creamos en diálogo. Creamos obras.",
+    bl_intro2: "Es un espacio de pensamiento, práctica y criterio.",
+    bl_audience_title: "¿Para quién es?",
+    bl_aud1: "Para artistas que quieren comprender Bitcoin más allá de la superficie.",
+    bl_aud2: "Para bitcoiners interesados en la filosofía y el arte como expresión cultural.",
+    bl_aud3: "Para quienes buscan profundidad y sentido en lugar de tendencia.",
+    bl_aud4: "Para quienes ven en Bitcoin una infraestructura para la evolución humana, no solo financiera.",
+    bl_mod_title: "Modalidad",
+    bl_mod1: "Block Lab no es masivo. Funciona por aplicación o invitación. Buscamos compromiso, no volumen. Diálogo real, no exposición superficial.",
+    bl_cta: "Contactar",
+    bl_cta_note: "Aplicación o invitación."
+  },
+  en: {
+    bl_sub: "A laboratory for thought and creation on Bitcoin",
+    bl_intro: "Block Lab is Hash21's space where art meets sovereignty. We read and debate the ideas around Bitcoin. We explore its cultural and evolutionary implications. We create in dialogue. We create works.",
+    bl_intro2: "A space for thought, practice, and judgment.",
+    bl_audience_title: "Who is it for?",
+    bl_aud1: "For artists who want to understand Bitcoin beyond the surface.",
+    bl_aud2: "For bitcoiners interested in philosophy and art as cultural expression.",
+    bl_aud3: "For those seeking depth and meaning instead of trends.",
+    bl_aud4: "For those who see Bitcoin as infrastructure for human evolution, not just financial.",
+    bl_mod_title: "Format",
+    bl_mod1: "Block Lab is not massive. It works by application or invitation. We seek commitment, not volume. Real dialogue, not superficial exposure.",
+    bl_cta: "Get in touch",
+    bl_cta_note: "Application or invitation."
+  }
+};
+
+let currentLang = localStorage.getItem('hash21-lang') || 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('hash21-lang', lang);
+  const t = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+  });
+  document.documentElement.lang = lang;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setLang(currentLang);
+});
+</script>
+</body>
+</html>

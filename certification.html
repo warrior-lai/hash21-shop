@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificación On-Chain — Hash21</title>
+<meta name="description" content="Cómo certificamos obras de arte en Bitcoin. Proceso técnico, verificación y filosofía de Hash21.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0e0e;
+  --text: #e8e0d4;
+  --text-dim: #8a8478;
+  --gold: #b08d57;
+  --surface: #181614;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--gold); text-decoration: none; transition: opacity 0.3s; }
+a:hover { opacity: 0.7; }
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 30px 120px;
+}
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+.back-link {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.back-link:hover { color: var(--gold); }
+.lang-switch {
+  display: flex;
+  gap: 8px;
+}
+.lang-switch button {
+  background: none;
+  border: 1px solid var(--text-dim);
+  color: var(--text-dim);
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s;
+}
+.lang-switch button.active {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.lang-switch button:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(28px, 5vw, 42px);
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  color: var(--text);
+}
+.tagline {
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+  display: block;
+}
+.intro {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 2;
+  margin-bottom: 50px;
+  font-weight: 300;
+  border-left: 2px solid rgba(176,141,87,0.3);
+  padding-left: 20px;
+}
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  margin-top: 50px;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(176,141,87,0.15);
+}
+h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text);
+  margin-top: 25px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+p, li {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  line-height: 1.9;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 16px;
+}
+ul li::before {
+  content: "·";
+  color: var(--gold);
+  margin-right: 8px;
+}
+.check li::before { content: "✔"; color: var(--gold); }
+.cross li::before { content: "✘"; color: var(--text-dim); }
+.hash-example {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--gold);
+  background: rgba(176,141,87,0.08);
+  padding: 10px 16px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 8px 0 16px;
+  letter-spacing: 1px;
+}
+.step {
+  margin-top: 30px;
+  padding-left: 18px;
+  border-left: 1px solid rgba(176,141,87,0.2);
+}
+.step-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.highlight {
+  font-size: 14px;
+  color: var(--text);
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  margin: 40px 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.cta-cert {
+  display: inline-block;
+  padding: 16px 40px;
+  background: var(--gold);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.cta-cert:hover {
+  background: transparent;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  opacity: 1;
+}
+[data-lang-en] { display: none; }
+body.lang-en [data-lang-es] { display: none; }
+body.lang-en [data-lang-en] { display: block; }
+body.lang-en span[data-lang-en],
+body.lang-en a[data-lang-en],
+body.lang-en p[data-lang-en] { display: inline; }
+body.lang-en li[data-lang-en] { display: list-item; }
+body.lang-es span[data-lang-es],
+body.lang-es a[data-lang-es],
+body.lang-es p[data-lang-es] { display: inline; }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GB0GQ5P9NE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-GB0GQ5P9NE');
+</script>
+</head>
+<body class="lang-es">
+<div class="container">
+
+  <div class="top-bar">
+    <a href="/" class="back-link">← Hash21</a>
+    <div class="lang-switch">
+      <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <h1>
+    <span data-lang-es>Certificación On-Chain</span>
+    <span data-lang-en>On-Chain Certification</span>
+  </h1>
+  <span class="tagline">
+    <span data-lang-es>Cómo certificamos en Hash21</span>
+    <span data-lang-en>How we certify at Hash21</span>
+  </span>
+
+  <p class="intro">
+    <span data-lang-es>Transparencia. Inmutabilidad. Soberanía.<br><br>En Hash21 certificamos obras de arte registrando su huella digital en la red Bitcoin. No emitimos NFTs. No custodiamos activos. No almacenamos la obra en la blockchain.<br><br>Registramos prueba criptográfica de existencia.</span>
+    <span data-lang-en>Transparency. Immutability. Sovereignty.<br><br>At Hash21 we certify artworks by recording their digital fingerprint on the Bitcoin network. We don't mint NFTs. We don't custody assets. We don't store the work on the blockchain.<br><br>We record cryptographic proof of existence.</span>
+  </p>
+
+  <h2>
+    <span data-lang-es>1. ¿Qué significa certificar una obra?</span>
+    <span data-lang-en>1. What does it mean to certify a work?</span>
+  </h2>
+  <p>
+    <span data-lang-es>Cada obra digital o física puede transformarse en una huella digital única (hash criptográfico). Un hash es una cadena alfanumérica generada a partir del archivo digital de la obra (imagen, documentación, metadata).</span>
+    <span data-lang-en>Every digital or physical artwork can be transformed into a unique digital fingerprint (cryptographic hash). A hash is an alphanumeric string generated from the digital file of the work (image, documentation, metadata).</span>
+  </p>
+  <p>
+    <span data-lang-es>Si la obra cambia aunque sea un pixel, el hash cambia completamente. Esto garantiza integridad.</span>
+    <span data-lang-en>If the work changes by even a single pixel, the hash changes completely. This guarantees integrity.</span>
+  </p>
+
+  <h2>
+    <span data-lang-es>2. Proceso técnico simplificado</span>
+    <span data-lang-en>2. Simplified technical process</span>
+  </h2>
+  <p>
+    <span data-lang-es>El proceso consta de cuatro pasos:</span>
+    <span data-lang-en>The process consists of four steps:</span>
+  </p>
+
+  <div class="step">
+    <p class="step-label">
+      <span data-lang-es>Paso 1 — Digitalización</span>
+      <span data-lang-en>Step 1 — Digitization</span>
+    </p>
+    <p>
+      <span data-lang-es>La obra se documenta mediante:</span>
+      <span data-lang-en>The work is documented through:</span>
+    </p>
+    <ul>
+      <li data-lang-es>Imagen en alta resolución</li>
+      <li data-lang-es>Datos técnicos (autor, fecha, técnica, dimensiones)</li>
+      <li data-lang-en>High-resolution image</li>
+      <li data-lang-en>Technical data (author, date, technique, dimensions)</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <p class="step-label">
+      <span data-lang-es>Paso 2 — Generación del hash</span>
+      <span data-lang-en>Step 2 — Hash generation</span>
+    </p>
+    <p>
+      <span data-lang-es>Se aplica un algoritmo criptográfico (SHA-256) al archivo digital.</span>
+      <span data-lang-en>A cryptographic algorithm (SHA-256) is applied to the digital file.</span>
+    </p>
+    <p>
+      <span data-lang-es>Resultado: una huella digital única e irrepetible.</span>
+      <span data-lang-en>Result: a unique and unrepeatable digital fingerprint.</span>
+    </p>
+    <span class="hash-example">3f9a8d...e7c21</span>
+  </div>
+
+  <div class="step">
+    <p class="step-label">
+      <span data-lang-es>Paso 3 — Registro en Bitcoin</span>
+      <span data-lang-en>Step 3 — Bitcoin registration</span>
+    </p>
+    <p>
+      <span data-lang-es>El hash se incluye en una transacción en la red Bitcoin. Bitcoin actúa como:</span>
+      <span data-lang-en>The hash is included in a Bitcoin network transaction. Bitcoin acts as:</span>
+    </p>
+    <ul>
+      <li data-lang-es>Registro público</li>
+      <li data-lang-es>Libro contable inmutable</li>
+      <li data-lang-es>Prueba de timestamp (fecha verificable)</li>
+      <li data-lang-en>Public record</li>
+      <li data-lang-en>Immutable ledger</li>
+      <li data-lang-en>Timestamp proof (verifiable date)</li>
+    </ul>
+    <p>
+      <span data-lang-es>Una vez confirmada la transacción: el registro no puede alterarse y puede verificarse públicamente.</span>
+      <span data-lang-en>Once the transaction is confirmed: the record cannot be altered and can be publicly verified.</span>
+    </p>
+  </div>
+
+  <div class="step">
+    <p class="step-label">
+      <span data-lang-es>Paso 4 — Verificación</span>
+      <span data-lang-en>Step 4 — Verification</span>
+    </p>
+    <p>
+      <span data-lang-es>Cualquier persona puede verificar:</span>
+      <span data-lang-en>Anyone can verify:</span>
+    </p>
+    <ul>
+      <li data-lang-es>Que ese hash existe en la red Bitcoin</li>
+      <li data-lang-es>La fecha exacta de registro</li>
+      <li data-lang-es>Que el archivo original corresponde a ese hash</li>
+      <li data-lang-en>That the hash exists on the Bitcoin network</li>
+      <li data-lang-en>The exact date of registration</li>
+      <li data-lang-en>That the original file matches the hash</li>
+    </ul>
+    <p>
+      <span data-lang-es>No se necesita confianza en Hash21. Solo en la red Bitcoin.</span>
+      <span data-lang-en>No trust in Hash21 is needed. Only in the Bitcoin network.</span>
+    </p>
+  </div>
+
+  <h2>
+    <span data-lang-es>3. ¿Qué garantiza esta certificación?</span>
+    <span data-lang-en>3. What does this certification guarantee?</span>
+  </h2>
+  <ul class="check">
+    <li data-lang-es>Que un archivo específico existía en una fecha determinada</li>
+    <li data-lang-es>Que no fue alterado desde su registro</li>
+    <li data-lang-es>Que su huella digital coincide con la registrada</li>
+    <li data-lang-en>That a specific file existed at a given date</li>
+    <li data-lang-en>That it has not been altered since registration</li>
+    <li data-lang-en>That its digital fingerprint matches the registered one</li>
+  </ul>
+
+  <h2>
+    <span data-lang-es>4. ¿Qué NO garantiza?</span>
+    <span data-lang-en>4. What does it NOT guarantee?</span>
+  </h2>
+  <p>
+    <span data-lang-es>La certificación no implica automáticamente:</span>
+    <span data-lang-en>Certification does not automatically imply:</span>
+  </p>
+  <ul class="cross">
+    <li data-lang-es>Transferencia de derechos de autor</li>
+    <li data-lang-es>Registro legal de propiedad intelectual</li>
+    <li data-lang-es>Garantía de compraventa</li>
+    <li data-lang-es>Custodia de la obra</li>
+    <li data-lang-en>Transfer of copyright</li>
+    <li data-lang-en>Legal registration of intellectual property</li>
+    <li data-lang-en>Purchase/sale guarantee</li>
+    <li data-lang-en>Custody of the work</li>
+  </ul>
+  <p>
+    <span data-lang-es>Hash21 registra prueba técnica de existencia e integridad.</span>
+    <span data-lang-en>Hash21 records technical proof of existence and integrity.</span>
+  </p>
+
+  <h2>
+    <span data-lang-es>5. ¿Por qué Bitcoin?</span>
+    <span data-lang-en>5. Why Bitcoin?</span>
+  </h2>
+  <p>
+    <span data-lang-es>Elegimos Bitcoin porque:</span>
+    <span data-lang-en>We chose Bitcoin because:</span>
+  </p>
+  <ul>
+    <li data-lang-es>Es la red más segura y descentralizada del mundo</li>
+    <li data-lang-es>Es inmutable</li>
+    <li data-lang-es>No depende de una empresa</li>
+    <li data-lang-es>No puede ser alterada por un tercero</li>
+    <li data-lang-en>It is the most secure and decentralized network in the world</li>
+    <li data-lang-en>It is immutable</li>
+    <li data-lang-en>It does not depend on any company</li>
+    <li data-lang-en>It cannot be altered by a third party</li>
+  </ul>
+  <p class="highlight">
+    <span data-lang-es>La certificación no depende de Hash21. Depende de la red Bitcoin.</span>
+    <span data-lang-en>Certification does not depend on Hash21. It depends on the Bitcoin network.</span>
+  </p>
+
+  <h2>
+    <span data-lang-es>6. Filosofía</span>
+    <span data-lang-en>6. Philosophy</span>
+  </h2>
+  <p>
+    <span data-lang-es>En un mundo donde las imágenes pueden copiarse infinitamente, la certificación on-chain introduce escasez verificable. Hash21 utiliza tecnología soberana para proteger expresión artística.</span>
+    <span data-lang-en>In a world where images can be copied infinitely, on-chain certification introduces verifiable scarcity. Hash21 uses sovereign technology to protect artistic expression.</span>
+  </p>
+
+  <div style="text-align:center; margin:50px 0 30px;">
+    <a href="https://t.me/abstract_lai" target="_blank" class="cta-cert">
+      <span data-lang-es>Quiero Certificar</span>
+      <span data-lang-en>I Want to Certify</span>
+    </a>
+    <p style="margin-top:14px; color:#888; font-size:13px;">
+      <span data-lang-es>Escribinos por Telegram y te guiamos en el proceso.</span>
+      <span data-lang-en>Message us on Telegram and we'll guide you through the process.</span>
+    </p>
+  </div>
+</div>
+
+<script>
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  localStorage.setItem('hash21-lang', lang);
+}
+// Read saved language or detect from main site
+(function() {
+  var saved = localStorage.getItem('hash21-lang');
+  if (saved) setLang(saved);
+})();
+</script>
+</body>
+</html>
