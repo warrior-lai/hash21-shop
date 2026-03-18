@@ -105,8 +105,8 @@ Tema: Lightning Payments Basics.
 
 ## Equipo
 
-- **Lai⚡️** (@warrior-lai) — Fundadora, artista, diseño, producto
-- **Ragnar** 🪓 — Desarrollo, estrategia
+- **Lai⚡️** (@warrior-lai) — Founder · Product · Strategy · Creative Direction
+- **Ragnar** 🪓 — CTO · Engineering · AI Systems · Co-Strategy
 
 ## Licencia
 
