@@ -114,4 +114,4 @@ MIT
 
 ---
 
-⚡ Hecho con arte, código y Bitcoin.
+⚡ Hecho con amor.
