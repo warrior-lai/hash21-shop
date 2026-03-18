@@ -10,6 +10,16 @@ Hash21 es un hub de arte soberano donde cada obra queda vinculada a un bloque de
 
 ## Funcionalidades
 
+### 🖼️ Galería / Colección
+- Carousel horizontal + grilla expandible
+- Lightbox con detalle de obra
+- Obras de múltiples artistas (Lai⚡️, Roxy, Martu, Guadis)
+
+### 👥 Creadores
+- Perfiles de artistas con avatar, bio y links
+- Panel expandible con galería de obras por artista
+- Zap directo al artista
+
 ### ⚡ Zap System (NIP-57)
 - Zap (propina Lightning) en cada obra y cada artista
 - Detección automática de pagos via **Nostr zap receipts** (NIP-57)
@@ -24,16 +34,6 @@ Hash21 es un hub de arte soberano donde cada obra queda vinculada a un bloque de
 - QR code generado client-side
 - Opciones post-pago: envío sin KYC (Telegram) o con dirección
 - Bilingüe ES/EN
-
-### 🖼️ Galería / Colección
-- Carousel horizontal + grilla expandible
-- Lightbox con detalle de obra
-- Obras de múltiples artistas (Lai⚡️, Roxy, Martu, Guadis)
-
-### 👥 Creadores
-- Perfiles de artistas con avatar, bio y links
-- Panel expandible con galería de obras por artista
-- Zap directo al artista
 
 ### 📜 Certificación On-Chain
 - Certificados de registro vinculados a un bloque de Bitcoin (OpenTimestamps)
